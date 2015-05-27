@@ -7,9 +7,10 @@ import po.courseselectionpo.TempSelectionPO;
 import rmiconnector.RemoteDataFactory;
 import vo.courseselectionvo.CourseSelectionVO;
 import businesslogic.studentbl.StudentInfo;
+import businesslogicservice.courseselectionblservice.TempCourseSelectionBLService;
 import dataservice.courseselectiondataservice.TempSelectionDataService;
 
-public class TempCourseSelection {
+public class TempCourseSelection implements TempCourseSelectionBLService{
 	TempSelectionDataService data;
 	
 	public TempCourseSelection(){

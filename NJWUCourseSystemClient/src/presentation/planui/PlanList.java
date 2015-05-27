@@ -14,12 +14,12 @@ public class PlanList {
 	public JComboBox<String> getFacultyComboBox() {
 		PlanBLService plan = new PlanController();
 		ArrayList<PlanVO> pvList = plan.getPlanList();
-		String[] list = new String[pvList.size() + 1];
+		String[] list = new String[pvList.size() ];
 		list[0] = "";
 		for (int i = 0; i < pvList.size(); i++) {
 			list[i] = pvList.get(i).getName();
 		}
-		list[pvList.size()] = "";
+		//list[pvList.size()] = "";
 		return new JComboBox<String>(list);
 	}
 }

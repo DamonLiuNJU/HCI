@@ -37,6 +37,7 @@ public class PlanGUI {
 		createPanel.setLayout(null);
 		createPanel.add(getFrameLabel());
 		// createPanel.add(getDownloadBut());
+		
 		JPanel uploadPanel = new PlanUploadPanel(id).getUploadPanel();
 		createPanel.add(uploadPanel);
 		createPanel.add(getFrameContent());

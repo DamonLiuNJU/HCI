@@ -31,6 +31,7 @@ public class FrameRemarkPane extends JPanel{
 		JScrollPane jsp=new JScrollPane(remarkInfo);
 		jsp.setOpaque(false);
 		jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
 		JButton b=new JButton("保存");
 		b.addActionListener(new ActionListener(){
 			@Override

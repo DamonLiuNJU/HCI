@@ -16,14 +16,13 @@ public class Transform {
 
 	public static CoursePO listItemVOToPO(CourseListItemVO cpv) {
 		String facultyID = new Plan().getFacultyID(cpv.getFacultyName());
-		return new CoursePO(cpv.getCno(), cpv.getName(), cpv.getTeacherName(),
+		return new CoursePO(cpv.getCno(), cpv.getName(), cpv.getTeacherID(),
 				cpv.getCampus(), cpv.getGrade(), cpv.getPlace(), cpv.getTime(),
 				cpv.getPeriod(), cpv.getRequire(), facultyID, cpv.getCredit(),
 				cpv.getModule(), cpv.getLimit(), cpv.getInfo());
 	}
 
 	public static String getFacultyNameByFTeacherID(String ID) {
-		// TODO Auto-generated method stub
 		return new Plan().getFacultyName(new Faculty(ID).getFacultyID());
 	}
 }

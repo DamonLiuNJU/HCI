@@ -17,13 +17,14 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 import net.miginfocom.swing.MigLayout;
+import presentation.deanui.DeanUIImage;
 import presentation.statusui.FrameButtonSetter;
 import presentation.tools.OutputHelper;
 import presentation.tools.ViewReplyMessage;
 import businesslogic.framebl.Frame;
 
 @SuppressWarnings("serial")
-public class FrameInfoPane extends JPanel implements ViewReplyMessage{
+public class FrameInfoPane extends JPanel implements ViewReplyMessage,DeanUIImage{
 	JTextArea frameInfo;
 	JTextArea[] ta;
 	int len;//number of items
@@ -37,7 +38,7 @@ public class FrameInfoPane extends JPanel implements ViewReplyMessage{
 		p1.setOpaque(false);
 		JLabel label=new JLabel("整体框架策略");
 		label.setFont(new Font("华文楷体",Font.PLAIN, 15));
-		ImageIcon icon1=new ImageIcon("./icon/pencil5.png");
+		ImageIcon icon1=new ImageIcon(editButton);
 		JButton modifyButton=new JButton(icon1);
 		modifyButton.setContentAreaFilled(false);
 		modifyButton.setBorderPainted(false);
@@ -51,7 +52,7 @@ public class FrameInfoPane extends JPanel implements ViewReplyMessage{
 				setInfoEditable(true);
 			}			
 		});
-		p1.add(label,"gapleft 20");
+		p1.add(label,"gapleft 40");
 		p1.add(modifyButton,"gapleft 230");		
 
 		JPanel p2=new JPanel(new MigLayout());	
@@ -70,7 +71,7 @@ public class FrameInfoPane extends JPanel implements ViewReplyMessage{
 		jsp1.setOpaque(false);
 		jsp1.getViewport().setOpaque(false); 
 		jsp1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		jsp1.setPreferredSize(new Dimension(480,270));
+		jsp1.setPreferredSize(new Dimension(460,270));
 		jsp1.setBorder(null);
 		
 		JButton submitButton=new JButton("提交");
@@ -104,8 +105,8 @@ public class FrameInfoPane extends JPanel implements ViewReplyMessage{
 			submitButton.setVisible(false);
 		}
 				
-		this.add(p1,"gapleft 15,gaptop 5,wrap");
-		this.add(jsp1,"gapleft 10,wrap");
+		this.add(p1,"gapleft 5,gaptop 5,wrap");
+		this.add(jsp1,"gapleft 5,wrap");
 		this.add(submitButton,"gapleft 180,gaptop 10");
 	}
 	
@@ -124,7 +125,7 @@ public class FrameInfoPane extends JPanel implements ViewReplyMessage{
 			jsp[i].setBorder(null);
 			this.add(jsp[i],"wrap");
 		}
-		this.	setOpaque(false);
+		this.setOpaque(false);
 	}
 	
 	//本面板主要功能的入口方法

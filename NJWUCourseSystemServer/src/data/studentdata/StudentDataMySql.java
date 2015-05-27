@@ -46,7 +46,7 @@ public class StudentDataMySql extends UnicastRemoteObject implements StudentData
 		String password = sp.getPassWord();
 		String 	name = sp.getName();
 		String faculty = sp.getFacultyID();
-//		String grade = sp.getGrade();
+		String grade = sp.getGrade();
 		String contactinfo = sp.getContactInfo();
 		String phone = sp.getPhone();
 		String homeaddress= sp.getHomeAddress();
@@ -56,8 +56,8 @@ public class StudentDataMySql extends UnicastRemoteObject implements StudentData
 		String fatherphone = sp.getFatherPhone();
 		conn = getConnection();
 		try{
-			String sql = "INSERT INTO " + tablename + " ( " + "id,password,name,facultyID,grade,contactInfo,phone,homeaddress,mothername,motherphone,fathername,fatherphone" + " )"
-					+ " VALUES('" + id+"','"+password+"'"+name+"','"+faculty+"','"+"entranceyear"+"','"+contactinfo+"','"+phone+"','"+homeaddress+"','"+mothername+"','"+motherphone+"','"+fathername+"','"+fatherphone + "')";
+			String sql = "INSERT INTO " + tablename + " ( " + "id,password,name,facultyID,entranceyear,contactInfo,phone,homeaddress,mothername,motherphone,fathername,fatherphone" + " )"
+					+ " VALUES('" + id+"','"+password+"','"+name+"','"+faculty+"','"+grade+"','"+contactinfo+"','"+phone+"','"+homeaddress+"','"+mothername+"','"+motherphone+"','"+fathername+"','"+fatherphone + "' )";
 			st = (Statement) conn.createStatement();
 			st.executeUpdate(sql);
 			System.out.println("insert success");
@@ -190,7 +190,7 @@ public class StudentDataMySql extends UnicastRemoteObject implements StudentData
 	}
 	public StudentPO find(StudentPO sp){
 		
-		StudentPO resultsp = new StudentPO();
+		StudentPO resultsp  = null;
 		String student_id = sp.getStudentID();
 		conn = getConnection();
 		
@@ -201,6 +201,7 @@ public class StudentDataMySql extends UnicastRemoteObject implements StudentData
 			ResultSet rs = st.executeQuery(sql);
 			
 			while(rs.next()){
+				resultsp = new StudentPO();
 				resultsp.setStudentID(rs.getString("id"));
 				resultsp.setPassword(rs.getString("password"));
 				resultsp.setName(rs.getString("name"));

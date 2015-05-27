@@ -14,7 +14,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import net.miginfocom.swing.MigLayout;
+import presentation.managerui.ChangePWPane;
+import presentation.managerui.ManagerInfoPane;
 import presentation.planui.PlanList;
 import vo.managervo.ManagerVO;
 import businesslogic.managerbl.Manager;
@@ -34,7 +35,7 @@ public class SetGUI {
 
 	JTable infoTable;
 	JPanel infoPanel;
-	JPanel pswPanel;
+JPanel pswPanel;
 
 	public SetGUI(String id) {
 		ID = id;
@@ -46,8 +47,15 @@ public class SetGUI {
 	}
 
 	void initialInfoPanel() {
-		infoPanel = new JPanel();
-
+    	 infoPanel = new ManagerInfoPane(ID).getManagerInfoPane();
+		infoPanel.setBounds(frameWidth / 10000, frameHeight / 10, frameWidth ,
+				frameHeight );
+		
+		
+		infoPanel=new JPanel();
+		infoPanel.setBounds(frameWidth / 4, frameHeight / 5,
+				frameWidth * 2 / 3, frameHeight * 2 / 3);
+		
 		JLabel portrait = getPortrait();
 		// JButton changePorBut=getChangePorBut();
 
@@ -77,8 +85,7 @@ public class SetGUI {
 
 		JButton confirmBut = getConfirmBut();
 		JButton cancelBut = getCancelBut();
-		infoPanel.setBounds(frameWidth / 4, frameHeight / 5,
-				frameWidth * 2 / 3, frameHeight * 2 / 3);
+	
 		infoPanel.setLayout(null);
 		infoPanel.add(portrait);
 		// infoPanel.add(changePorBut);
@@ -88,66 +95,16 @@ public class SetGUI {
 
 		infoPanel.add(confirmBut);
 		infoPanel.add(cancelBut);
+	
+		
+	
+	
 	}
 
 	void initialPswPanel() {
-		pswPanel = new JPanel();
-		JLabel old = new JLabel("        旧密码：       ");
-		old.setFont(new Font("微软雅黑", 0, 17));
-		JLabel newPsw = new JLabel("        新密码：       ");
-		newPsw.setFont(new Font("微软雅黑", 0, 17));
-		JLabel again = new JLabel("再次输入新密码：");
-		again.setFont(new Font("微软雅黑", 0, 17));
-		oldContent = new JPasswordField(10);
-		newContent = new JPasswordField(10);
-		againContent = new JPasswordField(10);
-
-		JButton comfirmBut = new JButton("     确认     ");
-		comfirmBut.setFont(new Font("微软雅黑", 0, 13));
-		JButton cancelBut = new JButton("     取消     ");
-		cancelBut.setFont(new Font("微软雅黑", 0, 13));
-		comfirmBut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String newPsw = new String(newContent.getPassword());
-				String againPsw = new String(againContent.getPassword());
-				String oldPsw = new String(oldContent.getPassword());
-				if (!newPsw.equals(againPsw)) {
-					GUIHelper.sendMessage("两次输入的新密码不一致！");
-					newContent.setText("");
-					againContent.setText("");
-				} else {
-					Manager manager = new Manager(ID);
-					if (oldPsw.equals(manager.getPassword())) {
-						manager.changePassword(oldPsw);
-						GUIHelper.sendMessage("修改密码成功！");
-						clear();
-					} else {
-						clear();
-						GUIHelper.sendMessage("原密码不正确！");
-
-					}
-				}
-
-			}
-		});
-		cancelBut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clear();
-			}
-		});
-		pswPanel.setLayout(new MigLayout("wrap 2"));
-
-		pswPanel.add(old, "gapleft 90");
-		pswPanel.add(oldContent);
-		pswPanel.add(newPsw, "gapleft 90");
-		pswPanel.add(newContent);
-		pswPanel.add(again, "gapleft 90");
-		pswPanel.add(againContent);
-		pswPanel.add(comfirmBut, "gapleft 120");
-		pswPanel.add(cancelBut, "gapleft 20");
-		pswPanel.setBounds(frameWidth / 4, frameHeight / 5, frameWidth * 2 / 3,
-				frameHeight * 2 / 3);
-
+		pswPanel = new ChangePWPane(ID).getChangePWPane();
+		pswPanel.setBounds(frameWidth / 10000, frameHeight / 10, frameWidth ,
+				frameHeight );
 	}
 
 	void updateInfoPanel() {
@@ -161,7 +118,7 @@ public class SetGUI {
 	}
 
 	JPanel getPswPanel() {
-		clear();
+		//clear();
 		pswPanel.setOpaque(false);	
 		return pswPanel;
 	}

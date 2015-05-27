@@ -10,6 +10,6 @@ public interface AdminBLService extends ReplyMessage{
 	public String RegisterUser(UserVO uv);//注册一个用户，type在uservo中
 	public UserVO findUser(String id);//按照id查找一个user，返回一个uservo
 	public String updateUser(UserVO uv);//更新一个user信息，（暂定）学号不能更改。
-	
+	public String idAutomate(String type ,String faculty_name);//自动化生成一个id
 }
 

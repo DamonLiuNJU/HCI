@@ -12,6 +12,7 @@ import vo.CreditVO;
 import vo.teacherusedvo.TeacherCourseVO;
 import vo.teacherusedvo.TeacherScoreVO;
 import vo.teacherusedvo.TeacherUseStudentVO;
+import businesslogic.coursebl.Course;
 import businesslogic.coursebl.CourseApply;
 import businesslogic.creditbl.Credit;
 import businesslogic.statusbl.RecordScoreStatus;
@@ -216,6 +217,7 @@ public class Teacher implements TeacherBLService {
 	private TeacherPO setTeacherPO(){
 		TeacherPO tp= new TeacherPO();
 		tp.setId(this.ID);
+		tp.setPassword(this.password);
 		tp.setName(this.name);
 		tp.setFacultyID(this.facultyID);
 		tp.setSeniority(this.seniority);
@@ -234,29 +236,28 @@ public class Teacher implements TeacherBLService {
 	}
 
 	@Override
-	public boolean isVaild() {
+	public int isVaild() {
 		// TODO Auto-generated method stub
 		TeacherDataService teacherData = (TeacherDataService) remote.getData("Teacher");
 		try {
-			boolean result = false ;
+			int result = -1 ;
 			TeacherPO tp = teacherData.find(ID);
 			if(tp == null){
-				result = false;
+				result = 1;
 			}
 			else if(tp.getPassword().equals(password)){
-				result = true ;
+				result = 0 ;
 			}
-			else return false;
+			else return 2;
 			
 			return result;
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
+			return -1;
 		}
 		
-		
-		return false;
 	}
 
 	@Override
@@ -321,15 +322,42 @@ public class Teacher implements TeacherBLService {
 	}
 
 	@Override
-	public boolean isRecordTime() {
+	public boolean isRecordTime(String course_id) {
 		// TODO Auto-generated method stub
-		Status recordStatus = new RecordScoreStatus(CourseModule.必修课);
+		String temp = new Course().getModule(course_id);
+		CourseModule module = CourseModule.必修课;
+		switch (temp) {
+		case "选修课": module = CourseModule.选修课;break;
+		case "公选课": module = CourseModule.公选课;break;
+		case "通识课": module = CourseModule.通识课;break;
+		case "体育课": module = CourseModule.体育课;break;
+		}
+		Status recordStatus = new RecordScoreStatus(module);
 		if(recordStatus.current()){
 			return true;
 		}
 		return false;
 	}
 
-	
+	@Override
+	public String updateContactInfo(String info) {
+		// TODO Auto-generated method stub
+		TeacherPO tp = this.setTeacherPO();
+		tp.setContactInfo(info);
+		
+		TeacherDataService teacherData = (TeacherDataService) remote.getData("Teacher");
+		
+		try {
+			if(teacherData.update(tp)){
+				return "更新成功";
+			}
+			return "更新失败";
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "更新失败";
+		}
+		
+	}
 
 }

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import vo.studentvo.StudentInfoVO;
 import businesslogic.studentbl.StudentInfo;
 import businesslogicservice.studentblservice.StudentInfoBLService;
 
@@ -117,28 +118,55 @@ public class SettingButton extends JButton {
 				char[] oldpass = oldpasswrod.getPassword();
 				char[] newpass1 = newpassword.getPassword();
 				char[] newpass2 = newpassword2.getPassword();
+				int newkeylength = newpass1.length;
+				boolean keytoolong = false;
 				
-				boolean  newpassvalid = true;
-				for(int i=0;i<newpass1.length;i++){
-					if(newpass1[i]!=newpass2[i]){
-						newpassvalid=false;
-						break;
+				if(newkeylength<6){
+					//key length too short
+					JOptionPane.showMessageDialog(null, "请输入至少6位的密码");
+				}else{
+					//key length satisfied.
+					boolean  newpassvalid = true;
+					boolean 	samelength = true;
+					
+					if(newpass1.length!=newpass2.length){
+						samelength =false;
+					}
+					if(samelength){
+						for(int i=0;i<newpass1.length;i++){
+							if(newpass1[i]!=newpass2[i]){
+								newpassvalid=false;
+								break;
+							}
+						}
+					}
+					
+					if(newpassvalid){
+						if(newpass1.length>10){
+							keytoolong = true;
+						}
+					}
+					StudentInfoVO vo = new StudentInfoVO();
+					vo.setID(student_id);
+					vo.setKey(oldpass);
+					boolean oldkeyvalid = new StudentInfo().isKeyValid(vo);
+
+					if(newpassvalid&&samelength&&!keytoolong&&oldkeyvalid){
+						StudentInfoBLService si = new StudentInfo();
+						si.changePassWord(student_id, oldpass, newpass1);
+						mainframe.setVisible(false);
+						JOptionPane.showMessageDialog(null, "成功修改密码");
+					}else if(!samelength){
+						JOptionPane.showMessageDialog(null, "两次密码长度不一致");
+					}else if(!newpassvalid){
+						JOptionPane.showMessageDialog(null, "两次密码不一致");
+					}else if(keytoolong){
+						JOptionPane.showMessageDialog(null, "密码过长");
+					}else if(!oldkeyvalid){
+						JOptionPane.showMessageDialog(null, "原密码输入错误");
+
 					}
 				}
-				
-				if(newpass1.length!=newpass2.length){
-					newpassvalid =false;
-				}
-				
-				if(newpassvalid){
-					StudentInfoBLService si = new StudentInfo();
-					si.changePassWord(student_id, oldpass, newpass1);
-					mainframe.setVisible(false);
-					JOptionPane.showMessageDialog(null, "成功修改密码");
-				}else{
-					JOptionPane.showMessageDialog(null, "两次密码输入不一致");
-				}
-				
 				
 			}
 		});

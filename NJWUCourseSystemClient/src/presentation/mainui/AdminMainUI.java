@@ -1,11 +1,7 @@
 package presentation.mainui;
 
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.event.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,8 +20,8 @@ import org.jvnet.substance.skin.SubstanceSaharaLookAndFeel;
 import org.jvnet.substance.theme.SubstanceOliveTheme;
 import org.jvnet.substance.watermark.SubstanceBubblesWatermark;
 
-import presentation.managerui.SystemConditionPane;
-import presentation.managerui.UserManagePane;
+import presentation.adminui.SystemConditionPane;
+import presentation.adminui.UserManagePane;
 import presentation.tools.MyComponent;
 
 import businesslogic.managerbl.Admin;

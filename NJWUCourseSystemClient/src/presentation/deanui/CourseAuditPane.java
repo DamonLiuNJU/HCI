@@ -24,7 +24,7 @@ import presentation.tools.Setter;
 import vo.coursevo.ApplyVO;
 
 @SuppressWarnings("serial")
-public class CourseAuditPane extends JPanel{
+public class CourseAuditPane extends JPanel implements DeanUIImage{
 	JPanel basePane;
 		
 	String id;
@@ -65,7 +65,7 @@ public class CourseAuditPane extends JPanel{
 		jsp.getViewport().setOpaque(false); 
 		jsp.setPreferredSize(new Dimension(500,350));
 		
-		ImageIcon icon2=new ImageIcon("./icon/refresh.png");
+		ImageIcon icon2=new ImageIcon(refreshButton);
 		JButton refreshInfo_b=new JButton(icon2);
 		refreshInfo_b.setToolTipText("刷新");
 		refreshInfo_b.setToolTipText("刷新申请表");

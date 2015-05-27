@@ -1,15 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package presentation.mainui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import net.miginfocom.swing.MigLayout;
 
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.AutumnSkin;
@@ -17,268 +26,225 @@ import org.jvnet.substance.skin.SubstanceSaharaLookAndFeel;
 import org.jvnet.substance.theme.SubstanceOliveTheme;
 import org.jvnet.substance.watermark.SubstanceBubblesWatermark;
 
-import presentation.tools.OutputHelper;
-import presentation.tools.ViewReplyMessage;
-import vo.studentvo.StudentInfoVO;
+import businesslogic.managerbl.Admin;
 import businesslogic.managerbl.Manager;
 import businesslogic.studentbl.StudentInfo;
 import businesslogic.teacherbl.Teacher;
 
-/**
- *
- * @author LiuWT-ASUS
- */
-public class LoginUI extends JFrame implements ViewReplyMessage{
+import presentation.tools.OutputHelper;
+import presentation.tools.Setter;
+import presentation.tools.UserType;
+import presentation.tools.ViewReplyMessage;
+import vo.studentvo.StudentInfoVO;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class LoginUI implements ViewReplyMessage{
+    JFrame frame;
+	JPanel p;
+	JComboBox<UserType> roleBox;
+	JTextField tf;
+	JPasswordField pf;
 	
-	OutputHelper helper=new OutputHelper();
-    /**
-     * Creates new form LoginUI
-     */
-	static {
-		try{
-			try{
+	OutputHelper helper = new OutputHelper();
+
+	public LoginUI() {
+		frame = new JFrame("NJWU学生选课系统-登录");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setIconImage(new ImageIcon("./icon/student/mark.png").getImage());
+		String backPath="./icon/login.png";
+		new Setter().addBackground(frame, backPath);
+		frame.setLayout(new MigLayout());
+
+		p = new JPanel(new MigLayout());
+		p.setOpaque(false);
+		JLabel roleLabel = new JLabel("用户类型");
+		UserType[] users=UserType.values();
+		roleBox = new JComboBox<UserType>(users);
+		roleBox.setPreferredSize(new Dimension(200,20));
+		JLabel idlabel = new JLabel("用户名");
+		tf = new JTextField(25);
+		JLabel pwlabel = new JLabel("密码");
+		pf = new JPasswordField(25);
+		
+		JPanel p1=new JPanel(new MigLayout());
+		p1.setOpaque(false);
+		JButton button1 = new JButton("登录");
+		
+		String s="Copyright © 2013 All Rights Reserved.版权所有：Swing.";
+		JLabel l=new JLabel(s);
+		
+		tf.addKeyListener(new KeyAdapter()//为你的按纽监听事件
+        {
+            public void keyTyped(KeyEvent e)
+            {
+                 if(e.getKeyChar() =='\n')//这个就是回车键被按下
+                 {                     
+                     login();
+                 } 	
+            }	
+       	
+        });
+		
+		pf.addKeyListener(new KeyAdapter()//为你的按纽监听事件
+        	{
+            	public void keyTyped(KeyEvent e)
+            	{
+            		if(e.getKeyChar() =='\n')//这个就是回车键被按下
+            		{                     
+            			login();
+            		} 	
+            	}	
+       	
+        	});
+		JButton button2 = new JButton("重置");
+		button1.addActionListener(new BListener());
+        button2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                roleBox.setSelectedIndex(0);
+                tf.setText("");
+                pf.setText("");
+            }
+        });
+        p1.add(button1);
+        p1.add(button2,"gapleft 70");
+		
+		p.add(roleLabel);
+		p.add(roleBox,"gapleft 20,wrap");
+		p.add(idlabel);
+		p.add(tf,"gapleft 20,wrap");
+		p.add(pwlabel);
+		p.add(pf,"gapleft 20,wrap");
+	
+		frame.add(p,"gapleft 110,gapright 100,gaptop 110,wrap");
+		frame.add(p1,"gapleft 130,wrap");
+		frame.add(l,"gaptop 45,gapleft 105");
+		frame.setSize(500,350);
+		int windowwedth = frame.getWidth();
+		int windowheight = frame.getHeight();
+		int screenwedth = Toolkit.getDefaultToolkit().getScreenSize().width;
+		int screenheight = Toolkit.getDefaultToolkit().getScreenSize().height;
+		frame.setLocation((screenwedth - windowwedth) / 2,
+				(screenheight - windowheight) / 2);
+		frame.setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		try {
+			try {
 				UIManager.setLookAndFeel(new SubstanceLookAndFeel());
-				
-					
-			}catch(UnsupportedLookAndFeelException  ex){
+			} catch (UnsupportedLookAndFeelException ex) {
 				System.out.println(ex.getMessage());
 			}
-		}catch(Exception et){
-				System.out.println(et.getMessage());
+		} catch (Exception et) {
+			System.out.println(et.getMessage());
 		}
 		SubstanceSaharaLookAndFeel.setSkin(new AutumnSkin());
-		SubstanceLookAndFeel.setCurrentWatermark(new SubstanceBubblesWatermark());
-		//		SubstanceLookAndFeel.setCurrentTitlePainter(new Glass3DDecorationPainter());
-		
-	//	SubstanceLookAndFeel.setCurrentTheme(new SubstanceLightAquaTheme());
+		SubstanceLookAndFeel
+				.setCurrentWatermark(new SubstanceBubblesWatermark());
+		SubstanceLookAndFeel.setCurrentTheme(new SubstanceOliveTheme());
 
-		SubstanceLookAndFeel.setCurrentTheme(new SubstanceOliveTheme());  
-		  
-	     //  SubstanceLookAndFeel.setCurrentTheme(new SubstanceJadeForestTheme());  
-	};
-    public LoginUI() {
-    	
-        initComponents();
-    }
+		new LoginUI();
+	}
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {
+	class BListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			login();
+	}
+	}
+	
+	void login(){
+		UserType type = change(roleBox.getSelectedItem().toString());
+		String userid = tf.getText();
+		char[] password = pf.getPassword();
+		String pass = "";
+		for (int i = 0; i < password.length; i++) {
+			pass += password[i];
+		}
+		boolean valid;
+		int login = 0;// 登陆验证类型：0 用户不存在，1 密码错误，2 成功
 
-        jPanel1 = new javax.swing.JPanel();
-        usertype = new javax.swing.JComboBox<String>();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        id = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        key = new javax.swing.JPasswordField();
-        loginbutton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+		IDFormat format = new IDFormat(type);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
+		if (type == UserType.管理员 || type == UserType.教务处老师
+				|| type == UserType.院系教务老师) {
+			login = new Manager().login(userid, pass);
+			if (login == 0 || !format.isFormatValid(userid)) {
+				login = 0;
+				helper.outputToDialog(ID_NOT_EXIST);
+			} else if (login == 1) {
+				helper.outputToDialog(PW_ERROR);
+			}
+		}
 
-        usertype.setModel(new javax.swing.DefaultComboBoxModel<String>
-        	(new String[] { "学生", "任课教师", "院系教务老师", "教务处老师" }));
-
-        jLabel1.setText("身份：");
-
-        jLabel2.setText("帐号：");
-
-        id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("密码：");
-
-        loginbutton.setText("登录");
-        loginbutton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                loginbuttonMouseClicked(evt);
-            }
-        });
-        loginbutton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginbuttonActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("NJWUCourseSystem V 1.0.0");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(key)
-                            .addComponent(id)
-                            .addComponent(usertype, 0, 130, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(141, 141, 141)
-                        .addComponent(loginbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4)))
-                .addContainerGap(100, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usertype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(key, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addComponent(loginbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        pack();
-        setLocationRelativeTo(null);
-    }// </editor-fold>                        
-
-    private void loginbuttonActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void loginbuttonMouseClicked(java.awt.event.MouseEvent evt) {                                         
-        // TODO add your handling code here:
-        int type = usertype.getSelectedIndex();
-        String userid = id.getText();
-    	char[] password = key.getPassword();
-    	String pass = "";
-    	for(int i=0 ; i <password.length ; i++){
-    		pass+=password[i];
-    	}
-    	boolean valid = false;
-    	int login=0;//登陆验证类型：0 用户不存在，1 密码错误，2 成功
-        switch(type){       
-        case 0 :
-        	//学生部分
-        	StudentInfoVO siv = new StudentInfoVO();
+		switch (type) {
+		case 管理员:
+			if (login == 2) {
+				frame.dispose();
+				new AdminMainUI(new Admin());
+			}
+			break;
+		case 教务处老师:
+			if (login == 2) {
+				frame.dispose();
+				new DeanMainUI(userid);
+			}
+			break;
+		case 院系教务老师:
+			if (login == 2) {
+				frame.dispose();
+				new FacultyMainFrame(userid).start();
+			}
+			break;
+		case 任课教师:
+			Teacher teacher = new Teacher(userid, pass);
+			if (teacher.isVaild() == 0) {
+				teacher.initTeacher();
+				new TeacherMainUI(teacher);
+				frame.dispose();
+			} else if (teacher.isVaild() == 1) {
+				helper.outputToDialog(ID_NOT_EXIST);
+			} else if (teacher.isVaild() == 2) {
+				helper.outputToDialog(PW_ERROR);
+			} else {
+				helper.outputToDialog("与服务器连接失败");
+			}
+			break;
+		case 学生:
+			StudentInfoVO siv = new StudentInfoVO();
         	siv.setID(userid);
         	siv.setKey(password);
         	valid = new StudentInfo().isKeyValid(siv);
         	if(valid){
-        		new StudentMainUI().createFrame(userid);
-        		this.setVisible(false);
+        		frame.dispose();
+        		JFrame f = new StudentMainUI().createFrame(userid,frame); 
+        		f.setVisible(true);
         	}else{
-        		JOptionPane.showMessageDialog(null, "Wrong PassWord !");
+        		helper.outputToDialog("Wrong PassWord !");
         	}
-        	break;
-        case 1:
-        	//任课教师
-        	Teacher teacher = new Teacher(userid , pass);
-        	if(teacher.isVaild()){
-        		teacher.initTeacher();
-        		new TeacherMainUI(teacher);
-        	}else{
-        		JOptionPane.showMessageDialog(null, "Wrong PassWord !");
-        	}
-        	break;
-        case 2:
-        	//院系教务老师
-        	login=new Manager().login(userid, pass); 
-        	if(login==0){
-        		helper.outputToDialog(ID_NOT_EXIST);
-        	}else if(login==1){
-        		helper.outputToDialog(PW_ERROR);
-        	}else{        	
-        		new FacultyMainFrame(userid).start();
-        		this.dispose();        	
-        	}
-        	break;
-        case 3:
-        	//教务处老师
-        	login=new Manager().login(userid, pass); 
-        	if(login==0){
-        		helper.outputToDialog(ID_NOT_EXIST);
-        	}else if(login==1){
-        		helper.outputToDialog(PW_ERROR);
-        	}else{        	
-        		new DeanMainUI(userid);
-        	}       		
-        	break;
-        	
-        }
-    }                                        
+			break;
 
-    private void idActionPerformed(java.awt.event.ActionEvent evt) {                                   
-        // TODO add your handling code here:
-    }                                  
+		}
+	}
+	public UserType change(String s) {
+		UserType type = null;
+		switch (s) {
+		case "管理员":
+			type = UserType.管理员;
+			break;
+		case "教务处老师":
+			type = UserType.教务处老师;
+			break;
+		case "院系教务老师":
+			type = UserType.院系教务老师;
+			break;
+		case "任课教师":
+			type = UserType.任课教师;
+			break;
+		case "学生":
+			type = UserType.学生;
+			break;
+		}
+		return type;
+	}
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-     
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginUI().setVisible(true);
-            }
-        });
-    }
-
-    // Variables declaration - do not modify                     
-    private javax.swing.JTextField id;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField key;
-    private javax.swing.JButton loginbutton;
-	private javax.swing.JComboBox<String> usertype;
-    // End of variables declaration                   
 }

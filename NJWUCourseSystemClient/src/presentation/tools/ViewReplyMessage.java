@@ -27,7 +27,9 @@ public interface ViewReplyMessage {
     String CREATE_SUCCEED="创建成功";
     String MODIFY_TIP="不在限制时间内,无法修改";
     String MODIFY_SUCCEED="修改成功";
-    
+    String LOWCREDIT_ERROR="学分下限设置过低";
+    String HIGHCREDIT_ERROR="学分上限设置过高";
+    String NUM_ERROR="上下限请输入数字";
     
 	//查看教师统计信息
 	String NOT_SELECT_FACULTY="请选择一个院系";

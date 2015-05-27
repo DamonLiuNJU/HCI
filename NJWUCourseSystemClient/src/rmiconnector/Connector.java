@@ -5,6 +5,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import rmiconnector.io.RMIIOHelper;
+
 import businesslogic.utilitybl.ReplyMessage;
 import dataservice.DataService;
 
@@ -14,7 +16,10 @@ public class Connector implements ReplyMessage{
 	public DataService connect(String type){
 		
 		try {
-			Registry registry = LocateRegistry.getRegistry("127.0.0.1" , 8885);
+			RMIIOHelper helper = new RMIIOHelper();
+			String ip = helper.getIP();
+			int port = helper.getPort();
+			Registry registry = LocateRegistry.getRegistry(ip, port);
 			
 			DataService myData = (DataService)registry.lookup(type);
 			return  myData ;

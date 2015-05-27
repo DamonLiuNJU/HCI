@@ -25,9 +25,10 @@ int frameHeight;
 	String path;
 	String id;
 	public PlanUploadPanel(String id){
-		frameWidth=GUIHelper.getFrameWidth();
-		frameHeight=GUIHelper.getFrameHeight();
-this.id=id;
+				frameWidth=GUIHelper.getFrameWidth();
+				frameHeight=GUIHelper.getFrameHeight();
+                System.out.println("Plan"+id);
+				this.id=id;
 	}
 	
 public 	JPanel getUploadPanel(){
@@ -61,13 +62,14 @@ scan.setFont(new Font("微软雅黑",0,13));
 scan.setBounds(frameWidth*7/10,0,frameWidth/10,frameHeight/15);
 scan.addActionListener(new ActionListener(){
 
-	@SuppressWarnings("static-access")
+
 	public void actionPerformed(ActionEvent e){	
 			JFileChooser file = new JFileChooser();
 			int result = file.showOpenDialog(new JPanel());
 					if (result ==file.APPROVE_OPTION) {						
-						path=file.getSelectedFile().getAbsolutePath();
-						planUrl.setText(file.getSelectedFile().getAbsolutePath()); 
+					    path=file.getSelectedFile().getAbsolutePath();
+							System.out.println(path);
+							planUrl.setText(file.getSelectedFile().getAbsolutePath()); 
 			
 		}
 	}	
@@ -82,11 +84,9 @@ JButton getUploadBut(){
 		upload.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){	
 					String planContent =null;
-					try {
+					try {	
 							planContent =getFileContent();
-					
 							System.out.println(planContent);
-						
 							updatePlan(planContent);
 							GUIHelper.sendMessage("上传成功");
 					} catch (Exception e1) {
@@ -105,7 +105,8 @@ public static void main(String arg[]){
 	a.run();
 }
 void run(){
-	path="E:/course/Swing/新建文本文档.txt";
+	
+	path="C:"+"\"+"Users"+"\"+"dell"+"\"+"Desktop"+"\"+"新建文本文档.txt";
 	try {
 		System.out.println(getFileContent());
 	} catch (Exception e) {
@@ -137,7 +138,9 @@ try{
 	 }
 }
 void updatePlan( String planContent){
+
 	PlanBLService plan=new PlanController();													
 	plan.importPlan(id,planContent);
-}
+	
+	}
 }

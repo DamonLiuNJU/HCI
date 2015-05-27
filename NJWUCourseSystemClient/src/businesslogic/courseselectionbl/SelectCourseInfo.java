@@ -13,9 +13,10 @@ import businesslogic.statusbl.SelectCourseStatus;
 import businesslogic.statusbl.Status;
 import businesslogic.studentbl.CourseInfo;
 import businesslogic.utilitybl.CourseModule;
+import businesslogicservice.courseselectionblservice.SelectCourseInfoBLService;
 import dataservice.courseselectiondataservice.SelectCourseRecordDataService;
 import dataservice.courseselectiondataservice.TempSelectionDataService;
-public class SelectCourseInfo {
+public class SelectCourseInfo implements SelectCourseInfoBLService{
 	RemoteDataFactory factory = new RemoteDataFactory();
 	TempSelectionDataService tempData ;
 	SelectCourseRecordDataService recordData ;

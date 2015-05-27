@@ -59,26 +59,6 @@ public class TeacherMainUI extends JFrame implements MouseListener {
 	JMenu helpMenu ;
 	JMenuItem aboutMenuItem , replyMenuItem , exitMenuItem ;
 
-	// 该段代码选择了界面的风格
-//	static {
-//		try {
-//			try {
-//				UIManager.setLookAndFeel(new SubstanceLookAndFeel());
-//
-//			} catch (UnsupportedLookAndFeelException ex) {
-//				System.out.println(ex.getMessage());
-//			}
-//		} catch (Exception et) {
-//			System.out.println(et.getMessage());
-//		}
-//		SubstanceSaharaLookAndFeel.setSkin(new AutumnSkin());
-//		SubstanceLookAndFeel
-//				.setCurrentWatermark(new SubstanceBubblesWatermark());
-//
-//		SubstanceLookAndFeel.setCurrentTheme(new SubstanceOliveTheme());
-//
-//	};
-
 	public TeacherMainUI(Teacher teacher) {
 		try{
 			try{
@@ -102,9 +82,10 @@ public class TeacherMainUI extends JFrame implements MouseListener {
 		this.setLocation(width / 2 - 500, height / 2 - 350);
 		this.setSize(1000, 600);
 		this.setTitle("NJWU教务系统");
+		this.setResizable(false);
 		this.setLayout(null);
 
-		String path = "./icon/teacher/back1.jpg";
+		String path = "./icon/0622.png";
 		ImageIcon ii = this.getImageIcon(path, 1000, 600);
 		JLabel backLabel = new JLabel(ii);
 		backLabel.setBounds(0, 0, 1000, 600);

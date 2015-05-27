@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import po.TeacherPO;
 import rmiconnector.RemoteDataFactory;
 import vo.TeacherVO;
+import businesslogic.managerbl.Faculty;
 import businesslogic.planbl.Plan;
 import businesslogicservice.teacherblservice.TeacherListService;
 import dataservice.TeacherDataService;
@@ -145,6 +146,21 @@ public class TeacherList implements TeacherListService{
 			System.out.println("没有该类型");
 			return ;
 		}
+	}
+
+	@Override
+	public ArrayList<TeacherVO> getSearchList(String manager_id ,String teacher_name) {
+		// TODO Auto-generated method stub
+		String faculty_id = new Faculty(manager_id).getFacultyID();
+		String faculty_name = new Plan().getFacultyName(faculty_id);
+		ArrayList<TeacherVO> temp = this.getTeacherList(faculty_name);
+		ArrayList<TeacherVO> result = new ArrayList<TeacherVO>();
+		for(int i=0 ; i<temp.size() ; i++){
+			if(temp.get(i).getName().equals(teacher_name)){
+				result.add(temp.get(i));
+			}
+		}
+		return result;
 	}
 
 	

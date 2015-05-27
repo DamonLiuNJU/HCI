@@ -1,5 +1,6 @@
 
 package presentation.facultyui;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,11 +8,16 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import net.miginfocom.swing.MigLayout;
+
+import presentation.courseui.CourseStaticsButton;
 
 import vo.coursevo.CourseListItemVO;
 import businesslogic.coursebl.Course;
@@ -61,7 +67,6 @@ public class CourseGUI {
 		initialComponent();
 		course = new Course();
 		courseList = new CourseList();
-
 		pc = new PublicComponent(id);
 	}
 
@@ -204,8 +209,18 @@ public class CourseGUI {
 		publishPanel.add(getConfirmBut());
 		publishPanel.add(getCancelBut());
 
+		JButton staticBut=new  CourseStaticsButton().getCourseStaticsButton(id);
+		staticBut.setBounds(frameWidth*19/30 , 0,
+				 frameWidth /10, frameHeight /30);
+	//	staticBut.setContentAreaFilled(false);
+		staticBut.setBackground(Color.gray);
+		staticBut.setBorderPainted(false);
+		publishPanel.add(staticBut);
+		
+		
 		publishPanel.setBounds(frameWidth / 4, frameHeight / 5,
-				frameWidth * 2 / 3, frameHeight * 2 / 3);
+				frameWidth * 22/ 30, frameHeight * 2 / 3);
+		publishPanel.setBackground(Color.RED);
 	}
 
 	void initialRevisePanel(String id) {
@@ -214,7 +229,7 @@ public class CourseGUI {
 		// getReviseState(id);
 		// id ——>getCourseInfo
 		cno.setEditable(false);
-
+		getReviseState(id);
 		revisePanel.add(getCouIDLabel());
 		revisePanel.add(getCouNameLabel());
 		revisePanel.add(getTeaIDLabel());
@@ -252,7 +267,8 @@ public class CourseGUI {
 		revisePanel.add(getInfoArea());
 		revisePanel.add(getReviseConfirmBut());
 		revisePanel.add(getReviseCancelBut());
-		getReviseState(id);
+
+		
 		revisePanel.setBounds(frameWidth / 4, frameHeight / 5,
 				frameWidth * 2 / 3, frameHeight * 2 / 3);
 
@@ -261,6 +277,7 @@ public class CourseGUI {
 	// 根据课程id刷新组件
 	void getReviseState(String id) {
 		CourseListItemVO info = course.getCourseInfo(id); // course
+		clear();
 		cno.setText(info.getCno());
 		name.setText(info.getName());
 		teacher.setText(info.getTeacherID());
@@ -271,10 +288,10 @@ public class CourseGUI {
 
 		classTime.clear();
 		for (int i = 0; i < s1.length; i++) {
-			System.out.println(s1[i]);
+		//	System.out.println(s1[i]);
 			classTime.add(s1[i]);
 		}
-
+		
 		updateTimeTable();
 
 		String[] s2 = info.getPeriod().split("-");
@@ -292,7 +309,7 @@ public class CourseGUI {
 		// TODO Auto-generated method stub
 		initialPublishPanel();
 		clear();
-		publishPanel.setOpaque(false);	
+		//publishPanel.setOpaque(false);	
 		return publishPanel;
 	}
 
@@ -521,6 +538,7 @@ public class CourseGUI {
 				classTime.add((String) dayInWeek.getSelectedItem() + " "
 						+ (String) class_start.getSelectedItem() + "-"
 						+ (String) class_end.getSelectedItem());
+		
 				publishPanel.remove(timeTable);
 				updateTimeTable();
 				publishPanel.add(timeTable);
@@ -539,6 +557,8 @@ public class CourseGUI {
 		del.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				classTime.remove(timeTable.getSelectedItem());
+				
+				System.out.println(classTime);
 				publishPanel.remove(timeTable);
 				updateTimeTable();
 				publishPanel.add(timeTable);
@@ -558,12 +578,9 @@ public class CourseGUI {
 				frameHeight / 25);
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String courseID = cno.getText();
-				boolean if_conflict = course.isCourseIDUsable(courseID); // course
-				if (if_conflict) {
-					GUIHelper.sendMessage("该课程号已被占用！");
-					cno.setText("");
-				} else {
+					
+				if (testInfo()) {
+				
 					CourseListItemVO info = getCourseInfo();
 					course.addCourse(info); // course
 					GUIHelper.sendMessage("课程发布成功！");
@@ -587,7 +604,7 @@ public class CourseGUI {
 		return cal;
 	}
 
-	// revisePanel
+	
 
 	// revisePanel
 	JButton getReviseConfirmBut() {
@@ -619,7 +636,7 @@ public class CourseGUI {
 				revisePanel.remove(timeTable);
 				updateTimeTable();
 				revisePanel.add(timeTable);
-				revisePanel.repaint();
+				  revisePanel.repaint();
 				revisePanel.revalidate();
 			}
 		});
@@ -633,12 +650,12 @@ public class CourseGUI {
 				frameWidth / 14, frameHeight / 25);
 		del.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				classTime.remove(timeTable.getSelectedItem());
-				revisePanel.remove(timeTable);
-				updateTimeTable();
-				revisePanel.add(timeTable);
-				revisePanel.repaint();
-				revisePanel.revalidate();
+					classTime.remove(timeTable.getSelectedItem());
+					revisePanel.remove(timeTable);
+					updateTimeTable();
+					revisePanel.add(timeTable);
+					  revisePanel.repaint();
+					revisePanel.revalidate();
 			}
 
 		});
@@ -653,7 +670,6 @@ public class CourseGUI {
 				frameHeight / 25);
 		cal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// revisePanel.removeAll();
 				getReviseState(cno.getText());
 				revisePanel.repaint();
 				revisePanel.revalidate();
@@ -661,8 +677,70 @@ public class CourseGUI {
 		});
 		return cal;
 	}
-
+//test
+	boolean testInfo(){
+		boolean test=true;
+	JPanel p=new JPanel();
+	p.setLayout(new MigLayout());
+		//课程号
+		String courseID = cno.getText();
+	if (courseID.equals("")){
+		JLabel a=new JLabel("课程号不得为空！");
+		p.add(a,"wrap");	
+		test=false;
+	}else{
+		
+		boolean if_conflict = course.isCourseIDUsable(courseID); // course
+		if (if_conflict) {
+		JLabel a=new JLabel("课程号已被占用！");
+		p.add(a,"wrap");	
+		cno.setText("");
+			test=false;
+		}
+	}
+	
+		String teacherID=teacher.getText();
+		if(teacherID.equals("")){
+			JLabel a=new JLabel("教师号不能为空！");
+			p.add(a,"wrap");	
+			test=false;	
+		}else{
+			boolean if_exist=false;//teacher.isTeacherUsable(id,teacherID)
+			if(!if_exist){
+				JLabel a=new JLabel("该教师不存在或不属本院！");
+				p.add(a,"wrap");	
+				teacher.setText("");
+				test=false;
+		}
+		}
+		
+		String creditStr=credit.getText();
+		if(creditStr.equals("")){
+			JLabel a=new JLabel("学分不能为空！");
+			p.add(a,"wrap");	
+			test=false;
+		}else{
+		int creditNum=Integer.parseInt(creditStr);
+		if(!(0<creditNum&&creditNum<=6)){
+			
+			JLabel a=new JLabel("学分超过限制！");
+			p.add(a,"wrap");	
+			credit.setText("");
+			test=false;
+			}
+		}
+		if(!test){
+			
+		JFrame f=new JFrame();
+		f.setBounds(500,300,200,150);
+		f.add(p);
+		f.setVisible(true);
+		}
+		
+		return test;
+	}
 	// 得到CourseProcessVO
+
 	CourseListItemVO getCourseInfo() {
 		String cno = this.cno.getText();
 		String name = this.name.getText();
@@ -706,6 +784,7 @@ public class CourseGUI {
 		String[] a = new String[classTime.size()];
 		for (int i = 0; i < classTime.size(); i++) {
 			a[i] = classTime.get(i);
+		System.out.println(a[i]+"==========");
 		}
 		return a;
 	}
@@ -720,9 +799,14 @@ public class CourseGUI {
 	}
 
 	void updateTimeTable() {
-		timeTable = new JComboBox<String>(getClassTimeList());
-		timeTable.setBounds(0, frameHeight * 2 / 5, frameWidth / 5,
-				frameHeight / 25);
+			
+			timeTable = new JComboBox<String>(getClassTimeList());
+			timeTable.repaint();
+			timeTable.updateUI();
+			
+			timeTable.setBounds(0, frameHeight * 2 / 5, frameWidth / 5,
+					frameHeight / 25);
+			
 	}
 
 }

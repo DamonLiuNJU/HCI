@@ -2,11 +2,15 @@ package businesslogic.managerbl;
 
 import java.util.ArrayList;
 
+import po.managerpo.ManagerPO;
+
 import vo.managervo.SentMessageVO;
 import businesslogic.coursebl.CourseApply;
 import businesslogicservice.managerblservice.DeanBLService;
 
-public class Dean extends Manager implements DeanBLService{
+public class Dean extends Manager implements DeanBLService{  
+	static int ID_LENGTH=2;
+	static char firstCharAsFlag='1';
    
    public Dean(String id){
 	   super(id);
@@ -40,5 +44,22 @@ public class Dean extends Manager implements DeanBLService{
    
    public ArrayList<SentMessageVO> showMyMessage(){   
 	   return new Message().getMessageByFrom(id);
+   }
+   
+   /**
+    * 返回教务处老师总数
+    * @return deanCount
+    */
+   public int getDeanCount(){
+	   int count=0;
+	   ArrayList<ManagerPO> mpList=getAllManagers();
+	   
+	   for(ManagerPO mp:mpList){
+			String id=mp.getID();
+			if(id.length()==ID_LENGTH && id.charAt(0)==firstCharAsFlag){
+				count++;
+			}
+		}
+	   return count;
    }
 }

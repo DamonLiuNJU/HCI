@@ -64,9 +64,13 @@ public class StudentInfoPane extends JPanel implements MouseListener{
 		
 		searchLabel = new JLabel("搜索：");
 		jtf = new JTextField(20);
+		
 		sure = new JButton("确定");
+		TeacherUITool.setButtonIcon(TeacherUITool.search, sure);
 		sure.addMouseListener(this);
+		
 		cancel = new JButton("取消");
+		TeacherUITool.setButtonIcon(TeacherUITool.cancel, cancel);
 		cancel.addMouseListener(this);
 		
 		searchPane = new JPanel();
@@ -92,6 +96,7 @@ public class StudentInfoPane extends JPanel implements MouseListener{
 		
 		back = new JButton("返回");
 		back.setBounds(500 , 30 , 70 , 30);
+		TeacherUITool.setButtonIcon(TeacherUITool.returnLabel, back);
 		back.addMouseListener(this);
 		
 		

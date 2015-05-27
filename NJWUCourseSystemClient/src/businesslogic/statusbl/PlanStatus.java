@@ -4,11 +4,7 @@ import java.rmi.RemoteException;
 
 import po.statuspo.ManageStatusPO;
 
-public class PlanStatus extends ManageStatus{
-
-	
-	public PlanStatus(){
-	}
+public class PlanStatus extends ManageStatus{	
 	
 	@Override
 	public void init() {
@@ -19,7 +15,6 @@ public class PlanStatus extends ManageStatus{
 			on=new BoundDate(mp.getOnTime());
 			off=new BoundDate(mp.getOffTime());		
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -28,9 +23,8 @@ public class PlanStatus extends ManageStatus{
 	public void setTime(BoundDate ft1,BoundDate ft2){
 		super.setTime(ft1, ft2);
 		try {
-			data.update(new ManageStatusPO("planstatus",on.toString(),off.toString()));
+			data.update(new ManageStatusPO("plan",on.toString(),off.toString()));
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

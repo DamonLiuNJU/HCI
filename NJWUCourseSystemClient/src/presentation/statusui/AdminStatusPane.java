@@ -38,6 +38,7 @@ public class AdminStatusPane {
 		jtf = new JTextField[22];
 		for (int i = 0; i < jtf.length; i++) {
 			jtf[i] = new JTextField();
+			jtf[i].setOpaque(false);
 		}
 
 		JLabel managerLabel = new JLabel("教务处状态");
@@ -463,7 +464,6 @@ public class AdminStatusPane {
 					if (index == -1) {
 						saveInfo();
 						setEditable(false);
-						System.out.println("-------------");
 						JOptionPane.showMessageDialog(save, "保存成功");
 					} else {
 						JOptionPane.showMessageDialog(jtf[index], "填写格式错误");

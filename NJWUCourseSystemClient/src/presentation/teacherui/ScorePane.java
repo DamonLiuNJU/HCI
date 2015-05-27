@@ -59,9 +59,11 @@ public class ScorePane extends JPanel implements MouseListener{
 		jtf = new JTextField(30);
 		
 		search = new JButton("搜索");
+		TeacherUITool.setButtonIcon(TeacherUITool.search, search);
 		search.addMouseListener(this);
 		
 		cancel = new JButton("取消");
+		TeacherUITool.setButtonIcon(TeacherUITool.cancel, cancel);
 		cancel.addMouseListener(this);
 		
 		searchPane.add(jl);
@@ -82,14 +84,17 @@ public class ScorePane extends JPanel implements MouseListener{
 		
 		submit = new JButton("提交");
 		submit.setBounds(50 , 30 , 100 , 30);
+		TeacherUITool.setButtonIcon(TeacherUITool.sure, submit);
 		submit.addMouseListener(this);
 		
 		reset = new JButton("重置");
 		reset.setBounds(450 , 30 , 100 , 30);
+		TeacherUITool.setButtonIcon(TeacherUITool.refresh, reset);
 		reset.addMouseListener(this);
 		
 		back = new JButton("返回");
 		back.setBounds(850 , 30 , 100 , 30);
+		TeacherUITool.setButtonIcon(TeacherUITool.returnLabel, back);
 		back.addMouseListener(this);
 		
 		buttonPane.add(submit);
@@ -177,7 +182,7 @@ public class ScorePane extends JPanel implements MouseListener{
 			this.add(jsp);
 		}
 		else if(e.getSource() == submit){
-			if(!teacher.isRecordTime()){
+			if(!teacher.isRecordTime(cv.getCourseID())){
 				JOptionPane.showMessageDialog(this, "现在不是登记成绩时间");
 				return ;
 			}

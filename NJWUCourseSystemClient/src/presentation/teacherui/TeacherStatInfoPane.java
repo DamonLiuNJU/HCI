@@ -26,6 +26,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
+import presentation.deanui.DeanUIImage;
 import presentation.planui.PlanList;
 import presentation.tools.OutputHelper;
 import presentation.tools.Setter;
@@ -41,7 +42,7 @@ import businesslogic.teacherbl.TeacherList;
  *
  */
 @SuppressWarnings("serial")
-public class TeacherStatInfoPane extends JPanel implements ViewReplyMessage{
+public class TeacherStatInfoPane extends JPanel implements ViewReplyMessage,DeanUIImage{
 	JPanel panel;//contain general info and detail info
 	JPanel generalInfo;
 	JPanel detailInfo;
@@ -144,7 +145,7 @@ public class TeacherStatInfoPane extends JPanel implements ViewReplyMessage{
 			
 		JPanel p1=new JPanel(new MigLayout());
 		p1.setOpaque(false);
-		ImageIcon img = new ImageIcon("./icon/list.png");
+		ImageIcon img = new ImageIcon(listButton);
 		JButton b=new JButton("教师列表",img);
 		b.setVerticalTextPosition(SwingConstants.BOTTOM);
     	b.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -215,7 +216,7 @@ public class TeacherStatInfoPane extends JPanel implements ViewReplyMessage{
 			public void focusLost(FocusEvent e) {}			
 		});
 		
-		ImageIcon icon0=new ImageIcon("./icon/search2.png");
+		ImageIcon icon0=new ImageIcon(searchButton);
 		JButton b=new JButton(icon0);
 		setter.setButtonUnOpaque(b);
 		b.addActionListener(new ActionListener(){
@@ -263,7 +264,7 @@ public class TeacherStatInfoPane extends JPanel implements ViewReplyMessage{
 		
 		JLabel label3=new JLabel(">>所授课程平均成绩统计");
 		
-		ImageIcon icon1=new ImageIcon("./icon/return.png");
+		ImageIcon icon1=new ImageIcon(returnButton);
 		JButton return_b=new JButton(icon1);
 		setter.setButtonUnOpaque(return_b);
 		return_b.addActionListener(new ActionListener(){
@@ -290,7 +291,7 @@ public class TeacherStatInfoPane extends JPanel implements ViewReplyMessage{
 		teacherTable=new JTable(){
 			   public boolean isCellEditable(int row, int column) { 
 				    return false;
-				   }
+			   }
 		};
 		DefaultTableModel tableModel = (DefaultTableModel) teacherTable.getModel();
         tableModel.setColumnIdentifiers(columnTitle);
@@ -310,7 +311,6 @@ public class TeacherStatInfoPane extends JPanel implements ViewReplyMessage{
 		DefaultTableModel tableModel = (DefaultTableModel) avgScoreTable.getModel();
 		tableModel.setRowCount(0);// 清除原有行
 		tableModel.setColumnIdentifiers(columnTitle);
-		System.out.print(tsvList.size());
 		if(tsvList!=null){
 			for(int i=0;i<tsvList.size();i++) { 
 				TeacherScoreVO tsv=tsvList.get(i);

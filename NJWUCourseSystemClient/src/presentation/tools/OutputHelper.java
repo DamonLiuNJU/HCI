@@ -29,14 +29,14 @@ public class OutputHelper {
      * @param columnTitle
      * @param table
      */
-    public void outputToTable(Vector<Vector<String>> content, String[] columnTitle, JTable table) {
+	public void outputToTable(Vector<Vector<String>> content, String[] columnTitle, JTable table) {
         DefaultTableModel tablemodel = (DefaultTableModel) table.getModel();
         tablemodel.setRowCount(0);// 清除原有行
         tablemodel.setColumnIdentifiers(columnTitle);
        for(Vector<String> line : content){
     	   tablemodel.addRow(line);
        }
-        table.updateUI();
+       table.updateUI();
     }
 
     /**

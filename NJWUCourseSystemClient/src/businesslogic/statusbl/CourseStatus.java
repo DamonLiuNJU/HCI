@@ -37,9 +37,4 @@ public class CourseStatus extends Status{
 	}		
 	return new CourseStatusVO(csList);
    }
-
-   public static void main(String[] args){
-	   CourseStatus s=new PublishCourseStatus(CourseModule.体育课);
-	   System.out.print(s.current());
-   }
 }

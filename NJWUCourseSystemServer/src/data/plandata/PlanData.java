@@ -14,12 +14,14 @@ public class PlanData  extends UnicastRemoteObject implements PlanDataService{
 	
 	public   static void main(String arg[]) throws RemoteException{
 	PlanData pd=new PlanData();
-	FacultyPO fp=pd.find("001");
+//	FacultyPO fp=pd.find("001");
 //	for(FacultyPO fp:fpList){
 	//	System.out.println(fp.getFacultyID());
 //	}
+	FacultyPO fp=new FacultyPO("001","软件学院","软院的教学计划");
+	pd.update(fp);	
+	System.out.println(fp.getFacultyName());
 	System.out.println(fp.getPlan());
-//	pd.update(new FacultyPO("10000005","大软件学院","软院的新教学计划"));
 }   
 
 	String tableName="faculty";
@@ -27,7 +29,7 @@ public class PlanData  extends UnicastRemoteObject implements PlanDataService{
     public PlanData() throws RemoteException {		
 		 db=new DataBaseHelper();
 	}
-   private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 	 
 	@Override
 	public void insert(FacultyPO fp) {	
@@ -40,12 +42,17 @@ public class PlanData  extends UnicastRemoteObject implements PlanDataService{
 	@Override
 	public void update(FacultyPO fp) {
 		// TODO Auto-generated method stub
-		 String info="update `"+tableName+"`"+" set `plan`='"+fp.getPlan()+"' where `id` = '"+fp.getFacultyID()+"'";
+		fp.setPlan(fp.getPlan().trim());
+		delete(fp.getFacultyID());
+		insert(fp);
+		
+		/*
+		String info="update `"+tableName+"`"+" set `plan`='"+fp.getPlan()+"' where `id` = '"+fp.getFacultyID()+"'";
 	     db.update(info);
 	     info="update `"+tableName+"`"+" set `name`='"+fp.getFacultyName()+"' where `id` = '"+fp.getFacultyID()+"'";
 	     db.update(info);
 	     System.out.println("update "+tableName+" successfully！");
-		
+		*/
 	     
 	}
 
@@ -56,10 +63,14 @@ public class PlanData  extends UnicastRemoteObject implements PlanDataService{
 		String[] names={"id","name","plan"};
 		String r=db.queryOne(info, names);
 		String[] sp=r.split(",");
+		
 		for(int i=0;i<sp.length;i++){
 			if(sp[i].equals("%&%"))
 				sp[i]="";
 		}
+
+		sp[2]=	sp[2].replace('?',' ');
+	
 		return new FacultyPO(sp[0],sp[1],sp[2]);
 	}
 
@@ -72,6 +83,11 @@ public class PlanData  extends UnicastRemoteObject implements PlanDataService{
 		ArrayList<String> reply=db.query(info,split);
 		for(String s:reply){
 			String[] sp=s.split(",");
+			for(int i=0;i<sp.length;i++){
+				if(sp[i].equals("%&%"))
+					sp[i]="";
+			}
+			sp[2]=	sp[2].replace('?',' ');
 			list.add(new FacultyPO(sp[0],sp[1],sp[2]));
 		}
 		return list;

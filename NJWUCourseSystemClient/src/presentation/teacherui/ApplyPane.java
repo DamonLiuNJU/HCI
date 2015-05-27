@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,9 +32,11 @@ public class ApplyPane extends JPanel implements MouseListener ,ReplyMessage{
 	JPanel courseInfoPane , buttonPane;
 	JButton sure , reset , back ;
 	JLabel courseName, intention , plan , classHour , stuNum , score , expectedTime;
+	JLabel moduleLabel;
 	JTextField[] jtf;
 	JTextArea jta1 , jta2;
 	Teacher teacher ;
+	JComboBox<String> module;
 	
 	public ApplyPane(Teacher teacher){
 		this.teacher = teacher;
@@ -69,9 +72,13 @@ public class ApplyPane extends JPanel implements MouseListener ,ReplyMessage{
 		expectedTime = new JLabel("期望上课时间");
 		expectedTime.setBounds(20 , 95 , 100 , 30);
 		
+		moduleLabel = new JLabel("课程模块");
+		moduleLabel.setBounds(420 , 95 , 100 , 30);
+		
 		jtf = new JTextField[5];
 		for(int i=0 ; i<5 ; i++){
 			jtf[i] = new JTextField();
+			jtf[i].setOpaque(false);
 		}
 		
 		jtf[0].setBounds(120 , 15 , 200 , 30);
@@ -79,12 +86,16 @@ public class ApplyPane extends JPanel implements MouseListener ,ReplyMessage{
 		jtf[2].setBounds(120 , 55 , 200 , 30);
 		jtf[3].setBounds(520 , 55 , 200 , 30);
 		jtf[4].setBounds(120 , 95 , 200 , 30);
+		this.setComboBox();
+		module.setBounds(520 , 95 ,200 ,30);
 		
 		jta1 = new JTextArea();
 		jta1.setBounds(20 , 170 , 800 , 50);
+		jta1.setOpaque(false);
 		
 		jta2 = new JTextArea();
 		jta2.setBounds(20 , 265 , 800 , 50);
+		jta2.setOpaque(false);
 		
 		courseInfoPane.add(courseName);
 		courseInfoPane.add(jtf[0]);
@@ -100,6 +111,8 @@ public class ApplyPane extends JPanel implements MouseListener ,ReplyMessage{
 		courseInfoPane.add(expectedTime);
 		courseInfoPane.add(jta1);
 		courseInfoPane.add(jta2);
+		courseInfoPane.add(moduleLabel);
+		courseInfoPane.add(module);
 		
 		buttonPane = new JPanel();
 		buttonPane.setLayout(null);
@@ -108,10 +121,12 @@ public class ApplyPane extends JPanel implements MouseListener ,ReplyMessage{
 		
 		sure = new JButton("确定申报");
 		sure.setBounds(400 , 20 , 100 ,30 );
+		TeacherUITool.setButtonIcon(TeacherUITool.sure, sure);
 		sure.addMouseListener(this);
 		
 		reset = new JButton("重置");
 		reset.setBounds(520 , 20 ,100 , 30);
+		TeacherUITool.setButtonIcon(TeacherUITool.refresh, reset);
 		reset.addMouseListener(this);
 		
 		buttonPane.add(sure);
@@ -119,6 +134,11 @@ public class ApplyPane extends JPanel implements MouseListener ,ReplyMessage{
 		
 		this.add(courseInfoPane);
 		this.add(buttonPane);
+	}
+	
+	private void setComboBox(){
+		String[] content = {"选修课","通识课","专业课"};
+		module = new JComboBox<>(content);
 	}
 	
 
@@ -187,6 +207,7 @@ public class ApplyPane extends JPanel implements MouseListener ,ReplyMessage{
 			String expectedTime = jtf[4].getText() ;
 			String intention = jta1.getText();
 			String plan = jta2.getText();
+			String courseModule = (String) module.getSelectedItem();
 			
 			String content = "";
 			content = "课程名称: "+name+'\n';
@@ -196,6 +217,7 @@ public class ApplyPane extends JPanel implements MouseListener ,ReplyMessage{
 			content += "期望上课时间： " + expectedTime + '\n';
 			content += "教学目的： " + intention + '\n';
 			content += "教学计划： " + plan + '\n';
+			content += "课程模块： " + courseModule + '\n';
 			
 			return content ;
 		}catch(NumberFormatException e){

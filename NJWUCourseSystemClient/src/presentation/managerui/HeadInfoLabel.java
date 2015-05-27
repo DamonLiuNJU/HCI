@@ -3,9 +3,11 @@ package presentation.managerui;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import presentation.deanui.DeanUIImage;
+
 import businesslogic.managerbl.Manager;
 
-public class HeadInfoLabel {
+public class HeadInfoLabel implements DeanUIImage{
 	String id;
 	
 	public HeadInfoLabel(String id){
@@ -18,17 +20,17 @@ public class HeadInfoLabel {
 	}
 	
 	public JLabel getDeanImageLabel(){
-		ImageIcon img= new ImageIcon("./icon/man.png");
+		ImageIcon img= new ImageIcon(dean);
 		return getImageLabel(img);
 	}
 	
 	public JLabel getFacultyImageLabel(){
-		ImageIcon img = new ImageIcon("./icon/man.png");//revise
+		ImageIcon img = new ImageIcon(dean);//revise
 		return getImageLabel(img);
 	}
 	
 	public JLabel getAdminImageLabel(){
-		ImageIcon img = new ImageIcon("./icon/man.png");//revise
+		ImageIcon img = new ImageIcon(dean);//revise
 		return getImageLabel(img);
 	}
 	

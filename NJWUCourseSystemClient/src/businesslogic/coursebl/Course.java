@@ -5,16 +5,15 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.coursepo.CoursePO;
-import po.studentpo.StudentPO;
 import rmiconnector.RemoteDataFactory;
 import vo.coursevo.CourseListItemVO;
 import vo.coursevo.CourseStatVO;
 import businesslogic.courseselectionbl.CourseSelection;
+import businesslogic.managerbl.Faculty;
 import businesslogic.planbl.Plan;
 import businesslogic.statusbl.CourseStatus;
 import businesslogic.statusbl.PlanStatus;
 import businesslogic.statusbl.PublishCourseStatus;
-import businesslogic.studentbl.FacultyStudent;
 import businesslogic.utilitybl.CourseModule;
 import businesslogicservice.courseblservice.CourseBLService;
 import dataservice.coursedataservice.CourseDataService;
@@ -40,30 +39,8 @@ public class Course implements CourseBLService{
 		}
 		//若为必修课直接添加到选课列表
 		if (cp.getModule().equals("必修课")){
-			this.addCompulsoryCourse( cp.getID(), cp.getFacultyID(), cp.getGrade());
+			new CourseSelection().addCompulsoryCourse( cp.getID(), cp.getFacultyID(), cp.getGrade());
 		}						
-	}
-	
-	/**
-	 * 为某院系某年级所有学生添加相应必修课记录
-	 * @param course_id
-	 * @param faculty_id
-	 * @param grade
-	 */
-	void addCompulsoryCourse(String course_id, String faculty_id, String grade) {
-		// 把一个院系所有符合grade的学生添加一个课程 这里的grade应该是形式为 2012 这种的
-		// 但是课程的grade是大一上大一下这种的。
-//		RemoteDataFactory factory = new RemoteDataFactory();
-		StudentPO sp = new StudentPO();
-		sp.setFaculty_ID(faculty_id);
-		sp.setGrade(grade);
-		ArrayList<StudentPO> list = new ArrayList<StudentPO>();
-		list = new FacultyStudent().getAllStudentsByFacID(faculty_id);
-		for (StudentPO po : list) {
-			String student_id = po.getStudentID();
-			new CourseSelection().addCourseSelection(student_id, course_id);
-		}
-
 	}
 	
 	/**
@@ -184,6 +161,13 @@ public class Course implements CourseBLService{
 		}
 
 		return statList;
+	}
+
+	public ArrayList<CourseStatVO> getMyFacultyStatics(String fTeacherID){
+		String facultyID=new Faculty(fTeacherID).getFacultyID();
+		String facultyName=new Plan().getFacultyName(facultyID);
+		return 		getModuleStatics(facultyName);
+	
 	}
 
 	@Override

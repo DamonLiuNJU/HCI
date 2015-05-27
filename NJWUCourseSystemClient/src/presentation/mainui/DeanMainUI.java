@@ -15,20 +15,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.jvnet.substance.SubstanceLookAndFeel;
-import org.jvnet.substance.skin.AutumnSkin;
-import org.jvnet.substance.skin.SubstanceSaharaLookAndFeel;
-import org.jvnet.substance.theme.SubstanceOliveTheme;
-import org.jvnet.substance.watermark.SubstanceBubblesWatermark;
-
 import presentation.courseui.CourseStatInfoPane;
-import presentation.deanui.FramePane;
+import presentation.deanui.DeanUIImage;
 import presentation.deanui.MainAuditPane;
+import presentation.deanui.MainFramePane;
 import presentation.deanui.PlanPane;
 import presentation.managerui.ChangePWPane;
 import presentation.managerui.HeadInfoLabel;
@@ -38,12 +31,12 @@ import presentation.teacherui.TeacherStatInfoPane;
 import presentation.tools.MyComponent;
 import presentation.tools.Setter;
 
-public class DeanMainUI{
+public class DeanMainUI implements DeanUIImage{
 	    JFrame deanFrame;
 	    JPanel pa;//盛放多标签页的面板及各种设置面板的最底层面板
 	    JTabbedPane panel;        //contains all tab pane
 	    JPanel home;              //首页
-	    JPanel framePane;         //框架策略面板
+	    JTabbedPane framePane;         //框架策略面板
 	    JPanel planPane;          //院系教学计划面板
 	    JPanel teacherInfoPane;   //教师统计信息面板
 	    JPanel courseInfoPane;    //课程统计信息面板
@@ -69,7 +62,7 @@ public class DeanMainUI{
 	        deanFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        deanFrame.setResizable(false);
 	        
-	        String backPath="./icon/0622.png";
+	        String backPath=background;
 	        setter.addBackground(deanFrame,backPath);	        
 	        
 	        JPanel p0=getUpPane();
@@ -91,7 +84,7 @@ public class DeanMainUI{
 	    public void showMainPane(){
 	    	pa.removeAll();
 	    	home=drawHomePage();
-	        framePane=new FramePane();
+	        framePane=new MainFramePane();
 	        planPane=new PlanPane(id);
 	        teacherInfoPane=new TeacherStatInfoPane();
 	        courseInfoPane=new CourseStatInfoPane();
@@ -114,11 +107,11 @@ public class DeanMainUI{
 	        // 一组按钮
 	        JButton[] button = new JButton[5];
 	       
-	        ImageIcon img0 = new ImageIcon("./icon/frame.png");//frame2
-	        ImageIcon img1 = new ImageIcon("./icon/plann.png");//plann2
-	        ImageIcon img2 = new ImageIcon("./icon/stat1.png");//trends
-	        ImageIcon img3 = new ImageIcon("./icon/stat2.png");//stat3
-	        ImageIcon img4 = new ImageIcon("./icon/qualify.png");//qualify2
+	        ImageIcon img0 = new ImageIcon(frameItem);
+	        ImageIcon img1 = new ImageIcon(planItem);
+	        ImageIcon img2 = new ImageIcon(teachStat);
+	        ImageIcon img3 = new ImageIcon(courseStat);
+	        ImageIcon img4 = new ImageIcon(qualifyItem);
 	        
 	        button[0] = new JButton(item1,img0);
 	        button[0].addActionListener(new ActionListener() { 
@@ -172,27 +165,27 @@ public class DeanMainUI{
 			tabpane.setOpaque(false);//
 			
 			String title0="首页<<";
-			ImageIcon icon0=new ImageIcon("./icon/home2.png");
+			ImageIcon icon0=new ImageIcon(homeItem);
 			tabpane.addTab(title0, icon0,home, "");
 			
 			String title1=item1;
-			ImageIcon icon1=new ImageIcon("./icon/task.png");
+			ImageIcon icon1=new ImageIcon(frameItem1);
 			tabpane.addTab(title1, icon1,framePane, "");
 			
 			String title2=item2;
-			ImageIcon icon2=new ImageIcon("./icon/plan5.png");
+			ImageIcon icon2=new ImageIcon(planItem1);
 			tabpane.addTab(title2, icon2,planPane,"");
 			
 			String title3=item3;
-			ImageIcon icon3=new ImageIcon("./icon/teacherstat2.png");
+			ImageIcon icon3=new ImageIcon(teachStat1);
 			tabpane.addTab(title3,icon3,teacherInfoPane,"");
 			
 			String title4=item4;
-			ImageIcon icon4=new ImageIcon("./icon/statistic.png");
+			ImageIcon icon4=new ImageIcon(courseStat1);
 			tabpane.addTab(title4, icon4,courseInfoPane,"");
 			
 			String title5=item5;
-			ImageIcon icon5=new ImageIcon("./icon/audit2.png");
+			ImageIcon icon5=new ImageIcon(qualifyItem1);
 			tabpane.addTab(title5,icon5,auditPane,"");
 			
 			return tabpane;
@@ -224,7 +217,7 @@ public class DeanMainUI{
 			
 			JMenu setMenu=new JMenu();
 			setMenu.setOpaque(false);
-			ImageIcon icon1=new ImageIcon("./icon/set.png");
+			ImageIcon icon1=new ImageIcon(setIcon);
 			setMenu.setIcon(icon1);
 			JMenuItem infoMenuItem=new JMenuItem("个人信息",KeyEvent.VK_I);
 			JMenuItem pwMenuItem=new JMenuItem("修改密码",KeyEvent.VK_D);
@@ -233,12 +226,12 @@ public class DeanMainUI{
 			
 			JMenuItem messageMenuItem=new JMenuItem("",KeyEvent.VK_E);
 			messageMenuItem.setOpaque(false);
-			ImageIcon icon4=new ImageIcon("./icon/letter2.png");
+			ImageIcon icon4=new ImageIcon(letterIcon);
 			messageMenuItem.setIcon(icon4);
 			
 			JMenu helpMenu =new JMenu();
 			helpMenu.setOpaque(false);
-			ImageIcon icon2=new ImageIcon("./icon/help.png");
+			ImageIcon icon2=new ImageIcon(helpIcon);
 			helpMenu.setIcon(icon2);
 			JMenuItem aboutMenuItem=new JMenuItem("关于");
 			JMenuItem replyMenuItem=new JMenuItem("反馈",KeyEvent.VK_R);
@@ -247,7 +240,7 @@ public class DeanMainUI{
 			
 			JMenuItem exitMenuItem=new JMenuItem("",KeyEvent.VK_E);
 			exitMenuItem.setOpaque(false);
-			ImageIcon icon3=new ImageIcon("./icon/exit.png");
+			ImageIcon icon3=new ImageIcon(exitIcon);
 			exitMenuItem.setIcon(icon3);
 		    
 			mb.add(setMenu);
@@ -285,7 +278,7 @@ public class DeanMainUI{
 			exitMenuItem.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){					
 					deanFrame.dispose();
-					new LoginUI1();
+					new LoginUI();
 				}
 			});
 			
@@ -302,7 +295,7 @@ public class DeanMainUI{
 	    private void showDeanInfoPane(){
 	    	pa.removeAll();
 	    	
-	    	ImageIcon icon1=new ImageIcon("./icon/return.png");
+	    	ImageIcon icon1=new ImageIcon(returnButton);
 	    	JButton return_b=new JButton(icon1);
 	    	return_b.setBounds(382,350,60,20);
 	    	return_b.addActionListener(new ActionListener(){
@@ -312,7 +305,7 @@ public class DeanMainUI{
 				}	    		
 	    	});
 	    	
-	    	JPanel deanInfoPane=new ManagerInfoPane(id,return_b);
+	    	JPanel deanInfoPane=new ManagerInfoPane(id).getManagerInfoPane(return_b);
 	    	deanInfoPane.setBounds(0, 0, 850, 350);
 	    	pa.add(deanInfoPane);
 	    	
@@ -322,7 +315,7 @@ public class DeanMainUI{
 	    private void showChangePWPane(){
 	    	pa.removeAll();
 	    	
-	    	ImageIcon icon1=new ImageIcon("./icon/return.png");
+	    	ImageIcon icon1=new ImageIcon(returnButton);
 	    	JButton return_b=new JButton(icon1);
 	    	return_b.setBounds(382,350,60,20);
 	    	return_b.addActionListener(new ActionListener(){
@@ -332,30 +325,10 @@ public class DeanMainUI{
 				}	    		
 	    	});
 	    	
-	    	JPanel changePWPane=new ChangePWPane(id,return_b);
+	    	JPanel changePWPane=new ChangePWPane(id).getChangePWPane(return_b);
 	    	changePWPane.setBounds(0, 0, 850, 350);
 	    	pa.add(changePWPane);
 	    	
 	    	deanFrame.repaint();
 	    }
-	    
-	    public static void main(String[] args) {
-	    	try{
-				try{
-					UIManager.setLookAndFeel(new SubstanceLookAndFeel());										
-				}catch(UnsupportedLookAndFeelException  ex){
-					System.out.println(ex.getMessage());
-				}
-			}catch(Exception et){
-					System.out.println(et.getMessage());
-			}
-			SubstanceSaharaLookAndFeel.setSkin(new AutumnSkin());
-			SubstanceLookAndFeel.setCurrentWatermark(new SubstanceBubblesWatermark());
-			SubstanceLookAndFeel.setCurrentTheme(new SubstanceOliveTheme());
-			
-			JFrame.setDefaultLookAndFeelDecorated(true); 			
-	        new DeanMainUI("11");
-	    }
-	    
-
 }

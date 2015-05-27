@@ -22,6 +22,7 @@ public interface CourseBLService {
 		public void deleteCourse(String courseID);
 		//获得课程模块
 		public String getModule(String courseID);
-
+		//得到本院系的课程统计信息
+		public ArrayList<CourseStatVO> getMyFacultyStatics(String fTeacherID);
 
 }

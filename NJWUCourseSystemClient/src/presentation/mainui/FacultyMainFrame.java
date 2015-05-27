@@ -1,7 +1,9 @@
 package presentation.mainui;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -23,13 +25,13 @@ import org.jvnet.substance.theme.SubstanceOliveTheme;
 import org.jvnet.substance.watermark.SubstanceBubblesWatermark;
 
 import presentation.facultyui.FacultyFunctionFrame;
+import presentation.facultyui.FacultyUIImage;
 import presentation.facultyui.GUIHelper;
 import presentation.facultyui.PublicComponent;
 import presentation.managerui.FacultyLabel;
 import presentation.managerui.MessageGUI;
 @SuppressWarnings("serial")
-public class FacultyMainFrame extends  JFrame {
-	
+public class FacultyMainFrame extends  JFrame implements FacultyUIImage{
 	static {
 							try{
 										try{
@@ -60,7 +62,7 @@ public class FacultyMainFrame extends  JFrame {
 		ImageIcon msgBackground; 
 		MessageGUI msgGUI;
 		public static void  main(String args[]){
-									FacultyMainFrame fmf=new FacultyMainFrame("100100");
+									FacultyMainFrame fmf=new FacultyMainFrame("100101");
 									fmf.start();
 		}
 
@@ -78,13 +80,15 @@ public class FacultyMainFrame extends  JFrame {
 	 								mainFrame.setBounds((screenWidth-frameWidth)/2,(screenHeight-frameHeight)/2,frameWidth,frameHeight);
 	 								mainFrame.setResizable(false);	
 	 								mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	 								addBackground("./icon/0622.png");//./icon/faculty/background.jpg
+	 								addBackground(bg);//./icon/faculty/background.jpg
 	 								msgGUI=new MessageGUI(ID);
 		}
 
 		void addBackground(String path){
 	 
 									background = new ImageIcon(path);// 背景图片
+									background= new ImageIcon(background.getImage().getScaledInstance(frameWidth,frameHeight ,
+												Image.SCALE_SMOOTH));
 									JLabel label1 = new JLabel(background);// 把背景图片显示在一个标签里面
 								
 									
@@ -119,7 +123,7 @@ public class FacultyMainFrame extends  JFrame {
 	 
 		//主菜单按钮
 		JButton getPlanBut(){
-									JButton planBut=pc.getButton("./icon/faculty/plan.jpg","教学计划",70,70);	
+									JButton planBut=pc.getButton(planIcon,"教学计划",70,70);	
 									planBut.addActionListener(new ActionListener()
 									{
 													public void actionPerformed(ActionEvent e){
@@ -133,7 +137,7 @@ public class FacultyMainFrame extends  JFrame {
 									return planBut;
 		}
 		JButton getCourseBut(){
-									JButton courseBut=pc.getButton("./icon/faculty/course.jpg","课程",70,70);
+									JButton courseBut=pc.getButton(courseIcon,"课程",70,70);
 									courseBut.addActionListener(new ActionListener()
 									{
 													public void actionPerformed(ActionEvent e){
@@ -147,7 +151,7 @@ public class FacultyMainFrame extends  JFrame {
 		}
 	
 		JButton getStudentBut(){
-									JButton studentBut=pc.getButton("./icon/faculty/student.jpg","查看学生",70,70);
+									JButton studentBut=pc.getButton(studentIcon,"查看学生",70,70);
 									studentBut.addActionListener(new ActionListener()
 									{
 													public void actionPerformed(ActionEvent e){
@@ -161,7 +165,7 @@ public class FacultyMainFrame extends  JFrame {
 	}
 
 		JButton getTriggerBut(){
-			JButton triggerBut=pc.getButton("./icon/faculty/trigger.jpg","触发选课",70,70);
+			JButton triggerBut=pc.getButton(triggerIcon,"触发选课",70,70);
 			triggerBut.addActionListener(new ActionListener()
 			{
 							public void actionPerformed(ActionEvent e){
@@ -174,46 +178,33 @@ public class FacultyMainFrame extends  JFrame {
 		//左上工具栏：设置&帮助&消息&退出
 		JMenuBar getToolMenuBar(){
 									JMenuBar mb=new JMenuBar();
-							//		mb.setOpaque(false);
-									//mb.setBackground(new Color(0Xf1e185))		;
+									mb.setOpaque(false);
 									
-									JMenu setMenu=new JMenu("设置");
+									ImageIcon icon1=new ImageIcon(setIcon);
+									JMenu setMenu=new JMenu();
+									setMenu.setIcon(icon1);
 									setMenu.setOpaque(false);
-									//	setMenu.setBackground(new Color(0Xf1e185));
-									
 									JMenuItem pswMenuItem=pc.getPswMenuItem();
-							//	pswMenuItem.setOpaque(false);
-									//pswMenuItem.setBackground(new Color(0Xf1e185));
-									
 									JMenuItem  infoMenuItem=pc.getInfoMenuItem();
-								//	infoMenuItem.setOpaque(false);
-									//infoMenuItem.setBackground(new Color(0Xf1e185));
-									
 									setMenu.add(infoMenuItem);
 									setMenu.add(pswMenuItem);
 		
-									
-									JMenu helpMenu =new JMenu("帮助");
+									ImageIcon icon2=new ImageIcon(helpIcon);	
+									JMenu helpMenu =new JMenu();
+									helpMenu.setIcon(icon2);
 									helpMenu.setOpaque(false);
-									//	helpMenu.setBackground(new Color(0Xf1e185));
-									
+							
 									JMenuItem aboutMenuItem=pc.getAboutMenuItem();
-									//aboutMenuItem.setBackground(new Color(0Xf1e185));
-									
 									JMenuItem replyMenuItem=pc.getReplyMenuItem();
-									//replyMenuItem.setBackground(new Color(0Xf1e185));
-									
+							
 									helpMenu.add(aboutMenuItem);
 									helpMenu.add(replyMenuItem);
 	
-									
-									JMenuItem exitMenuItem=pc.getExitMenuItem();
-									//exitMenuItem.setBackground(new Color(0Xf1e185));
-									
+								
+									JMenuItem exitMenuItem=getExitMenuItem();
+												
 									JMenuItem msgMenuItem=pc.getMsgMenuItem();
-								//	msgMenuItem.setBackground(new Color(0Xf1e185));
-		
-		
+						
 									mb.add(setMenu);
 									mb.add(helpMenu);
 									mb.add(msgMenuItem);
@@ -242,6 +233,20 @@ public class FacultyMainFrame extends  JFrame {
 		
 									return mb;
 		}
+		public JMenuItem getExitMenuItem() {
+			JMenuItem exitMenuItem = new JMenuItem("", KeyEvent.VK_E);
+			exitMenuItem.setOpaque(false);
+			ImageIcon icon=new ImageIcon(exitIcon);	
+			exitMenuItem.setIcon(icon);
+			exitMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// logout
+					mainFrame.dispose();
+					new LoginUI();
+				}
+			});
+			return exitMenuItem;
+		}
 	
 		//消息框
 		JPanel getMsgPanel(){
@@ -250,7 +255,7 @@ public class FacultyMainFrame extends  JFrame {
 							JPanel msg=msgGUI.getMsgPanel(txt,back);
 							msg.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY,2)
 									,"新消息",TitledBorder.LEFT,TitledBorder.TOP));
-									msg.setBounds(frameWidth*10/70,frameHeight*19/40,frameWidth*10/20,frameHeight/4);
+									msg.setBounds(frameWidth*10/70,frameHeight*19/40,frameWidth*13/20,frameHeight/4);
 									return msg;
 		}
     

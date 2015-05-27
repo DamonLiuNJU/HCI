@@ -1,6 +1,7 @@
 package presentation.mainui;
 
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -42,9 +43,8 @@ public class LoginUI1 extends JFrame implements ViewReplyMessage{
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public LoginUI1() {
-        frame = new JFrame("NJWU学生选课系统-登录");
     	
-		
+    	 frame = new JFrame("NJWU学生选课系统-登录");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);    
         com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.93f);  
@@ -103,6 +103,13 @@ public class LoginUI1 extends JFrame implements ViewReplyMessage{
         frame.getContentPane().add(p);
         frame.add(bLabel);
         frame.setSize(850, 550);
+        int windowwedth=frame.getWidth();
+		int windowheight=frame.getHeight();
+		int screenwedth=Toolkit.getDefaultToolkit().getScreenSize().width;
+		int screenheight=Toolkit.getDefaultToolkit().getScreenSize().height;
+		frame.setLocation((screenwedth-windowwedth)/2,  (screenheight-windowheight)/2);
+       
+    	
         frame.setVisible(true);
 
     }
@@ -171,12 +178,18 @@ public class LoginUI1 extends JFrame implements ViewReplyMessage{
             	break;
             case 任课教师:         	
             	Teacher teacher = new Teacher(userid , pass);
-            	if(teacher.isVaild()){
+            	if(teacher.isVaild() == 0){
             		teacher.initTeacher();
             		new TeacherMainUI(teacher);
             		frame.dispose();
-            	}else{
-            		helper.outputToDialog("Wrong PassWord !");
+            	}else if(teacher.isVaild() == 1){
+            		helper.outputToDialog(ID_NOT_EXIST);
+            	}
+            	else if(teacher.isVaild() == 2){
+            		helper.outputToDialog(PW_ERROR);
+            	}
+            	else {
+            		helper.outputToDialog("与服务器连接失败");
             	}
             	break;
             case 学生 :
@@ -186,7 +199,7 @@ public class LoginUI1 extends JFrame implements ViewReplyMessage{
             	valid = new StudentInfo().isKeyValid(siv);
             	if(valid){
             		frame.dispose();
-            		JFrame f = new StudentMainUI().createFrame(userid); 
+            		JFrame f = new StudentMainUI().createFrame(userid,frame); 
             		f.setVisible(true);
             	}else{
             		helper.outputToDialog("Wrong PassWord !");

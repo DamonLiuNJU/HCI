@@ -58,4 +58,10 @@ public class CourseBLService_Stub  implements CourseBLService{
 		return null;
 	}
 
+	@Override
+	public ArrayList<CourseStatVO> getMyFacultyStatics(String fTeacherID) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+
 }

@@ -39,7 +39,7 @@ public class MyComponent {
     	frame.setLocationRelativeTo(null);
     	
     	JPanel p=new JPanel(new MigLayout());
-    	JLabel l1=new JLabel("请将您的反馈发送至如下地址:");
+    	JLabel l1=new JLabel("请将您对于“NJWU选课系统”的反馈发送至如下地址:");
     	JLabel l2=new JLabel("邮箱：  swing2012@software.nju.edu.cn.");
     	JLabel l3=new JLabel("您的支持是我们完善工作的最大动力。");
         ImageIcon img0 = new ImageIcon("./icon/face2.png");

@@ -3,7 +3,6 @@ package businesslogic.creditbl;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Vector;
-
 import po.courseselectionpo.SelectCourseRecordPO;
 import rmiconnector.RemoteDataFactory;
 import vo.CreditVO;

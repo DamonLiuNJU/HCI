@@ -5,18 +5,43 @@ import java.util.ArrayList;
 
 import po.courseselectionpo.SelectCourseRecordPO;
 import po.courseselectionpo.TempSelectionPO;
+import po.studentpo.StudentPO;
 import rmiconnector.RemoteDataFactory;
 import vo.courseselectionvo.CourseSelectionVO;
 import businesslogic.coursebl.Course;
+import businesslogic.studentbl.FacultyStudent;
 import businesslogic.studentbl.StudentInfo;
+import businesslogicservice.courseselectionblservice.CourseSelectionBLService;
 import dataservice.courseselectiondataservice.SelectCourseRecordDataService;
 
-public class CourseSelection {
+public class CourseSelection implements CourseSelectionBLService{
 	SelectCourseRecordDataService data;
 	
 	public CourseSelection(){
 		data= (SelectCourseRecordDataService)new RemoteDataFactory()
 		.getData("SelectCourseRecord");
+	}
+	
+	/**
+	 * 为某院系某年级所有学生添加相应必修课记录
+	 * @param course_id
+	 * @param faculty_id
+	 * @param grade
+	 */
+	public void addCompulsoryCourse(String course_id, String faculty_id, String grade) {
+		// 把一个院系所有符合grade的学生添加一个课程 这里的grade应该是形式为 2012 这种的
+		// 但是课程的grade是大一上大一下这种的。
+//		RemoteDataFactory factory = new RemoteDataFactory();
+		StudentPO sp = new StudentPO();
+		sp.setFaculty_ID(faculty_id);
+		sp.setGrade(grade);
+		ArrayList<StudentPO> list = new ArrayList<StudentPO>();
+		list = new FacultyStudent().getAllStudentsByFacID(faculty_id);
+		for (StudentPO po : list) {
+			String student_id = po.getStudentID();
+			new CourseSelection().addCourseSelection(student_id, course_id);
+		}
+
 	}
 	
 	public void addCourseSelection(String student_id, String course_id){

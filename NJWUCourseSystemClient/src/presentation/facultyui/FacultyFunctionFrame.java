@@ -2,9 +2,10 @@ package presentation.facultyui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.KeyEvent;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,18 +17,17 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.AutumnSkin;
 import org.jvnet.substance.skin.SubstanceSaharaLookAndFeel;
 import org.jvnet.substance.theme.SubstanceOliveTheme;
 import org.jvnet.substance.watermark.SubstanceBubblesWatermark;
-
 import presentation.mainui.FacultyMainFrame;
+import presentation.mainui.LoginUI;
 import businesslogic.coursebl.Course;
 import businesslogicservice.courseblservice.CourseBLService;
 
-public class FacultyFunctionFrame {
+public class FacultyFunctionFrame implements FacultyUIImage{
 	static {
 		try {
 			try {
@@ -54,7 +54,7 @@ public class FacultyFunctionFrame {
 	};
 
 	public static void main(String args[]) {
-		FacultyFunctionFrame fff = new FacultyFunctionFrame("100100");
+		FacultyFunctionFrame fff = new FacultyFunctionFrame("100101");
 		fff.courseGui();
 	}
 
@@ -80,6 +80,8 @@ public class FacultyFunctionFrame {
 	void addBackground(String path) {
 
 		background = new ImageIcon(path);// 背景图片
+		background= new ImageIcon(background.getImage().getScaledInstance(frameWidth,frameHeight ,
+				Image.SCALE_SMOOTH));
 		JLabel label1 = new JLabel(background);// 把背景图片显示在一个标签里面
 
 		// 把标签的大小位置设置为图片刚好填充整个面板
@@ -110,7 +112,7 @@ public class FacultyFunctionFrame {
 				(screenHeight - frameHeight) / 2, frameWidth, frameHeight);
 		functionFrame.setResizable(false);
 		functionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		addBackground("./icon/0622.png");//./icon/faculty/subBackground.jpg
+		addBackground(bg);//./icon/faculty/subBackground.jpg
 		functionFrame.setLayout(null);
 		functionFrame.add(getGuideLine());
 		functionFrame.add(getMenuBar());
@@ -200,9 +202,10 @@ public class FacultyFunctionFrame {
 		functionFrame.setVisible(true);
 	}
 
+	
 	// 功能区左侧菜单公共组件:返回主界面But
 	JButton getBackBut(int a, int b) {
-		JButton back = pc.getButton("./icon/faculty/back.png", "返回", a, b);
+		JButton back = pc.getButton(backIcon, "返回", a, b);
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FacultyMainFrame fff = new FacultyMainFrame(ID);
@@ -217,9 +220,9 @@ public class FacultyFunctionFrame {
 	JPanel getSetButMenu(int a, int b) {
 		JPanel menu = new JPanel();
 		menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
-		JButton infoBut = pc.getButton("./icon/faculty/info.png", "个人信息", 60,
+		JButton infoBut = pc.getButton(infoIcon, "个人信息", 60,
 				60);
-		JButton pswBut = pc.getButton("./icon/faculty/password.png", "密码", 60,
+		JButton pswBut = pc.getButton(pswIcon, "密码", 60,
 				80);
 
 		infoBut.addActionListener(new ActionListener() {
@@ -259,8 +262,8 @@ public class FacultyFunctionFrame {
 	JPanel getPlanButMenu(int a, int b) {
 		JPanel menu = new JPanel();
 		menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
-		JButton createBut = pc.getButton("./icon/faculty/add.png", "创建", a, b);
-		JButton reviseBut = pc.getButton("./icon/faculty/revise.png", "修改", a,
+		JButton createBut = pc.getButton(createIcon, "创建", a, b);
+		JButton reviseBut = pc.getButton(revisePlanIcon, "修改", a,
 				b);
 		createBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -309,13 +312,13 @@ public class FacultyFunctionFrame {
 	JPanel getCourseButMenu(int buttonWidth, int buttonHeight) {
 		JPanel menu = new JPanel();
 		menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
-		JButton publishBut = pc.getButton("./icon/faculty/add.png", "发布",
+		JButton publishBut = pc.getButton(publishIcon, "发布",
 				buttonWidth, buttonHeight);
-		JButton reviseBut = pc.getButton("./icon/faculty/revise.png", "修改",
+		JButton reviseBut = pc.getButton(reviseIcon, "修改",
 				buttonWidth, buttonHeight);
-		JButton scanBut = pc.getButton("./icon/faculty/scan.png", "查看",
+		JButton scanBut = pc.getButton(scanIcon, "查看",
 				buttonWidth, buttonHeight);
-		JButton deleteBut = pc.getButton("./icon/faculty/delete.png", "删除",
+		JButton deleteBut = pc.getButton(deleteIcon, "删除",
 				buttonWidth, buttonHeight);
 
 		publishBut.addActionListener(new ActionListener() {
@@ -343,31 +346,38 @@ public class FacultyFunctionFrame {
 		reviseBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				functionFrame.remove(functionPanel);
+				pc=new PublicComponent(ID);
 				functionPanel = pc.getSearchPanel(true);
 				functionPanel.add(getReviseCourseBut());
 				functionPanel.setOpaque(false);	
+				
 				functionFrame.add(functionPanel);
+				functionPanel.revalidate();
 				functionFrame.invalidate();
 				functionFrame.repaint();
 			}
 		});
 		scanBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				pc=new PublicComponent(ID);
 				functionFrame.remove(functionPanel);
 				functionPanel = pc.getSearchPanel(false);
 				functionPanel.setOpaque(false);	
 				functionFrame.add(functionPanel);
+				functionPanel.revalidate();
 				functionFrame.invalidate();
 				functionFrame.repaint();
 			}
 		});
 		deleteBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				pc=new PublicComponent(ID);
 				functionFrame.remove(functionPanel);
 				functionPanel = pc.getSearchPanel(true);
 				functionPanel.add(getDeleteBut());
 				functionPanel.setOpaque(false);	
 				functionFrame.add(functionPanel);
+				functionPanel.revalidate();
 				functionFrame.invalidate();
 				functionFrame.repaint();
 			}
@@ -392,13 +402,21 @@ public class FacultyFunctionFrame {
 				frameWidth / 10, frameHeight / 30);
 		but.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String id=pc.getSelectedCouID();
+				if(id.equals("error")){
+					GUIHelper.sendMessage("请选择一项课程");
+				}else{
 				functionFrame.remove(functionPanel);
-				functionPanel = cg.getRevisePanel(pc.getSelectedCouID()); // courseID
+				functionPanel = cg.getRevisePanel(id); // courseID
 				functionPanel.setOpaque(false);	
+				
 				functionFrame.add(functionPanel);
+				
+				functionPanel.revalidate();
 				functionFrame.invalidate();
 				functionFrame.repaint();
-			}
+				}
+				}
 		});
 
 		return but;
@@ -413,7 +431,11 @@ public class FacultyFunctionFrame {
 		but.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CourseBLService course = new Course();
-				course.deleteCourse(pc.getSelectedCouID());
+				String id=pc.getSelectedCouID();
+				if(id.equals("error")){
+					GUIHelper.sendMessage("请选择一项课程");
+				}else{
+				course.deleteCourse(id);
 				functionFrame.remove(functionPanel);
 				functionPanel = pc.getSearchPanel(false); // courseID
 				functionPanel.add(getDeleteBut());
@@ -422,8 +444,10 @@ public class FacultyFunctionFrame {
 				functionFrame.invalidate();
 				functionFrame.repaint();
 				GUIHelper.sendMessage("删除课程成功！");
-			}
+				}
+				}
 		});
+		
 		return but;
 	}
 
@@ -446,14 +470,21 @@ public class FacultyFunctionFrame {
 				frameWidth / 10, frameHeight / 30);
 		but.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String courseID=pc.getSelectedCouID();	
+				if(courseID.equals("error")){
+					GUIHelper.sendMessage("请选择一项课程");
+				}else{
 				functionFrame.remove(functionPanel);
-				functionPanel = stuG.getStuListPanel(pc.getSelectedCouID(),
+				
+			
+				functionPanel = stuG.getStuListPanel(courseID,
 						pc.getSelectedCouName()); // 根据课程号得到学生列表 未实现
 				functionPanel.add(getStepBackBut());
 				functionPanel.setOpaque(false);	
 				functionFrame.add(functionPanel);
 				functionFrame.invalidate();
 				functionFrame.repaint();
+			}
 			}
 		});
 		return but;
@@ -472,6 +503,7 @@ public class FacultyFunctionFrame {
 				functionPanel.add(getSearchStuBut());
 				functionPanel.setOpaque(false);	
 				functionFrame.add(functionPanel);
+				functionPanel.revalidate();
 				functionFrame.invalidate();
 				functionFrame.repaint();
 			}
@@ -490,50 +522,75 @@ public class FacultyFunctionFrame {
 
 	// 工具栏
 	JMenuBar getMenuBar() {
-		JMenuBar mb = new JMenuBar();
-		JMenu setMenu = new JMenu("设置");
-		JMenuItem pswMenuItem = pc.getPswMenuItem();
-		JMenuItem infoMenuItem = pc.getInfoMenuItem();
+		JMenuBar mb=new JMenuBar();
+		mb.setOpaque(false);
+		
+		ImageIcon icon1=new ImageIcon(setIcon);
+		JMenu setMenu=new JMenu();
+		setMenu.setIcon(icon1);
+		setMenu.setOpaque(false);
+		JMenuItem pswMenuItem=pc.getPswMenuItem();
+		JMenuItem  infoMenuItem=pc.getInfoMenuItem();
 		setMenu.add(infoMenuItem);
 		setMenu.add(pswMenuItem);
 
-		JMenu helpMenu = new JMenu("帮助");
-		JMenuItem aboutMenuItem = pc.getAboutMenuItem();
-		JMenuItem replyMenuItem = pc.getReplyMenuItem();
+		ImageIcon icon2=new ImageIcon(helpIcon);	
+		JMenu helpMenu =new JMenu();
+		helpMenu.setIcon(icon2);
+		helpMenu.setOpaque(false);
+
+		JMenuItem aboutMenuItem=pc.getAboutMenuItem();
+		JMenuItem replyMenuItem=pc.getReplyMenuItem();
+
 		helpMenu.add(aboutMenuItem);
 		helpMenu.add(replyMenuItem);
 
-		JMenuItem exitMenuItem = pc.getExitMenuItem();
-		JMenuItem msgMenuItem = pc.getMsgMenuItem();
+	
+		JMenuItem exitMenuItem=getExitMenuItem();
+					
+		JMenuItem msgMenuItem=pc.getMsgMenuItem();
 
 		mb.add(setMenu);
 		mb.add(helpMenu);
 		mb.add(msgMenuItem);
 		mb.add(exitMenuItem);
-		mb.setBounds(frameWidth * 6 / 8, frameHeight / 17,
-				frameWidth * 11 / 60, frameHeight / 20);
+		mb.setBounds(frameWidth*6/8,frameHeight/17,frameWidth*11/60,frameHeight/20);
 
-		// 菜单事件
-		pswMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-				FacultyFunctionFrame fff = new FacultyFunctionFrame(ID);
-				fff.changePswGui();
-				functionFrame.setVisible(false);
-			}
+		//菜单事件
+		pswMenuItem.addActionListener(new ActionListener()
+		{
+						public void actionPerformed(ActionEvent e){	
+							FacultyFunctionFrame fff=new FacultyFunctionFrame(ID);
+							fff.changePswGui();
+							functionFrame.dispose();
+						}
 		});
-		infoMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				FacultyFunctionFrame fff = new FacultyFunctionFrame(ID);
-				fff.changeInfoGui();
-				functionFrame.setVisible(false);
-
-			}
+		infoMenuItem.addActionListener(new ActionListener()
+		{
+						public void actionPerformed(ActionEvent e){	
+							FacultyFunctionFrame fff=new FacultyFunctionFrame(ID);
+							fff.changeInfoGui();
+							functionFrame.dispose();
+						}
 
 		});
 
 		return mb;
 	}
 
+	public JMenuItem getExitMenuItem() {
+		JMenuItem exitMenuItem = new JMenuItem("", KeyEvent.VK_E);
+		exitMenuItem.setOpaque(false);
+		ImageIcon icon=new ImageIcon(exitIcon);	
+		exitMenuItem.setIcon(icon);
+		exitMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// logout
+				functionFrame.dispose();
+				new LoginUI();
+			}
+		});
+		return exitMenuItem;
+	}
 }

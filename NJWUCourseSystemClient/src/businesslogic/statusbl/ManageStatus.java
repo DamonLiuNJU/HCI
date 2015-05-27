@@ -18,7 +18,7 @@ public class ManageStatus extends Status{
 	
 	@Override
 	public void init(){
-	    //DataFactory factory=(DataFactory) new RemoteDataFactory().getData("ManageStatusMySqlImpl");
+		//DataFactory factory=(DataFactory) new RemoteDataFactory().getData("ManageStatusMySqlImpl");
 		data=(ManageStatusDataService) new RemoteDataFactory().getData("ManageStatus");//factory.getManageStatusDataBase();
 	}
 
@@ -31,6 +31,5 @@ public class ManageStatus extends Status{
 			e.printStackTrace();
 		}
 		return new ManageStatusVO(msList);
-	}
-	
+	}	
 }

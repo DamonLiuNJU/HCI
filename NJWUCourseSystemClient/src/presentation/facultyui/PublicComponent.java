@@ -23,11 +23,21 @@ import presentation.managerui.MessageGUI;
 import presentation.planui.PlanList;
 import businesslogic.coursebl.Transform;
 
-public class PublicComponent {
+public class PublicComponent  implements FacultyUIImage{
 
 	public static void main(String arg[]) {
-		// PublicComponent pc=new PublicComponent("10001");
-		// JFrame f=new JFrame();
+		
+		 PublicComponent pc=new PublicComponent("100101");
+		JFrame  a=new JFrame();
+		a.setBounds(200,200,400,400);
+		JPanel b=pc.getSearchPanel(false);
+
+
+a.setLayout(null);		
+		a.add(b);
+	
+	a.setVisible(true);
+		 // JFrame f=new JFrame();
 		// f.setBounds(10,10,500,500);
 		// f.add(pc.getSearchPanel(true));
 		// f.setVisible(true);
@@ -35,6 +45,7 @@ public class PublicComponent {
 		// System.out.println( Transform.getFacultyNameByFTeacherID("100100"));
 	}
 
+	
 	String ID;
 	int frameWidth;
 	int frameHeight;
@@ -57,15 +68,7 @@ public class PublicComponent {
 
 	public JPanel getSearchPanel(boolean ifLimit) {
 		initialSearchPanelComponent();
-		if (ifLimit) {
-
-			String facultyName = Transform.getFacultyNameByFTeacherID(ID);
-			facultyBox.setSelectedItem(facultyName);
-			facultyBox.setEnabled(false);
-		} else {
-			facultyBox.setSelectedItem("");
-			facultyBox.setEnabled(true);
-		}
+		
 
 		searchPanel = new JPanel();
 		searchPanel.setLayout(null);
@@ -76,15 +79,24 @@ public class PublicComponent {
 		searchPanel.add(getTeaNameLabel());
 		searchPanel.add(tnTxt);
 		searchPanel.add(getGradeLabel());
-		searchPanel.add(gradeBox);
+		searchPanel.add(getGradeBox());
 		searchPanel.add(getSearchBut());
 		searchPanel.add(getCourseListPane());
-		searchPanel.add(facultyBox);
+		searchPanel.add(getFacultyBox());
 		searchPanel.add(getFacultyLabel());
 
 		searchPanel.setBounds(frameWidth / 4, frameHeight / 5,
 				frameWidth * 2 / 3, frameHeight * 2 / 3);
 		searchPanel.setOpaque(false);	
+		if (ifLimit) {
+
+			String facultyName = Transform.getFacultyNameByFTeacherID(ID);
+			facultyBox.setSelectedItem(facultyName);
+			facultyBox.setEnabled(false);
+		} else {
+			facultyBox.setSelectedItem("");
+			facultyBox.setEnabled(true);
+		}
 		return searchPanel;
 	};
 
@@ -108,10 +120,19 @@ public class PublicComponent {
 				frameWidth / 7, frameHeight / 30);
 
 		facultyBox = new PlanList().getFacultyComboBox();
+		
+		facultyBox.addItem("全校");
 		facultyBox.setBounds(frameWidth / 11, frameHeight / 8, frameWidth / 7,
 				frameHeight / 30);
 	}
-
+JComboBox<String> getGradeBox(){
+	gradeBox.getSelectedIndex();
+	return gradeBox;
+}
+JComboBox<String> getFacultyBox(){
+	facultyBox.getSelectedIndex();
+	return facultyBox;
+}	
 	JLabel getFacultyLabel() {
 		JLabel label = new JLabel("院系:");
 		label.setFont(new Font("微软雅黑", 0, 12));
@@ -172,18 +193,26 @@ public class PublicComponent {
 		updateCourseListTable();
 		sp = new JScrollPane(courseList);
 		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		sp.setBounds(frameWidth / 20, frameHeight / 6, frameWidth / 2,
-				frameHeight * 2 / 6);
+		sp.setBounds(0, frameHeight / 6, frameWidth *32/ 50,
+				frameHeight * 12/30 );
 		return sp;
 	}
 
 	void updateCourseListTable() {
-		courseList = new CourseListTable().getSearchList(cNoTxt.getText(),
+				if(((String) facultyBox.getSelectedItem()).equals("全校")){
+					courseList = new CourseListTable().getSearchList(cNoTxt.getText(),
+							cNameTxt.getText(), tnTxt.getText(),
+							"",
+							(String) gradeBox.getSelectedItem());
+							courseList.updateUI();
+				}else{
+				courseList = new CourseListTable().getSearchList(cNoTxt.getText(),
 				cNameTxt.getText(), tnTxt.getText(),
 				(String) facultyBox.getSelectedItem(),
 				(String) gradeBox.getSelectedItem());
-		courseList.updateUI();
-	}
+				courseList.updateUI();
+				}
+				}
 
 	// menuBar 组件
 	public JMenuItem getPswMenuItem() {
@@ -196,16 +225,7 @@ public class PublicComponent {
 		return infoMenuItem;
 	}
 
-	public JMenuItem getExitMenuItem() {
-		JMenuItem exitMenuItem = new JMenuItem("退出", KeyEvent.VK_E);
-		exitMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// logout
-				System.exit(0);
-			}
-		});
-		return exitMenuItem;
-	}
+	
 
 	public JMenuItem getReplyMenuItem() {
 		JMenuItem replyMenuItem = new JMenuItem("反馈", KeyEvent.VK_R);
@@ -251,7 +271,10 @@ public class PublicComponent {
 
 	public JMenuItem getMsgMenuItem() {
 		// TODO Auto-generated method stub
-		JMenuItem msgMenuItem = new JMenuItem("消息", KeyEvent.VK_M);
+		JMenuItem msgMenuItem = new JMenuItem("", KeyEvent.VK_M);
+		msgMenuItem.setOpaque(false);
+		ImageIcon icon=new ImageIcon(letterIcon);
+		msgMenuItem.setIcon(icon);
 		msgMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MessageGUI msgGUI = new MessageGUI(ID);
@@ -278,12 +301,20 @@ public class PublicComponent {
 	// 返回选中的课程编号
 	public String getSelectedCouName() {
 		// TODO Auto-generated method stub
-		return (String) courseList.getValueAt(courseList.getSelectedRow(), 1);
-	}
+			if(courseList.getSelectedRow()==-1){
+				return "error";
+			}else{
+				return (String) courseList.getValueAt(courseList.getSelectedRow(), 1);
+			}
+		}
 
 	public String getSelectedCouID() {
 		// TODO Auto-generated method stub
+		if(courseList.getSelectedRow()==-1){
+			return "error";
+		}else{
 		return (String) courseList.getValueAt(courseList.getSelectedRow(), 0);
+		}
 	}
 
 	// 得到头像

@@ -17,7 +17,7 @@ import presentation.tools.Setter;
 import presentation.tools.ViewReplyMessage;
 
 @SuppressWarnings("serial")
-public class FramePane extends JPanel implements ViewReplyMessage{
+public class FramePane extends JPanel implements ViewReplyMessage,DeanUIImage{
 	JPanel headPane;
 	FrameInfoPane infoPane;
 	
@@ -33,7 +33,7 @@ public class FramePane extends JPanel implements ViewReplyMessage{
 		headPane=new JPanel(new MigLayout());
 		headPane.setOpaque(false);
 		
-		ImageIcon icon2=new ImageIcon("./icon/refresh.png");
+		ImageIcon icon2=new ImageIcon(refreshButton);
 		JButton refreshInfo_b=new JButton(icon2);
 		refreshInfo_b.setToolTipText("刷新");
 		new Setter().setButtonUnOpaque(refreshInfo_b);
@@ -48,6 +48,7 @@ public class FramePane extends JPanel implements ViewReplyMessage{
 		infoPane=new FrameInfoPane();
 		
 		JButton createButton=new JButton("  创建新框架   ");
+		
 		boolean enable=new FrameButtonSetter().setEnable(createButton);
 		if(!enable){
 			createButton.setToolTipText(CREATE_TIP);
@@ -61,10 +62,10 @@ public class FramePane extends JPanel implements ViewReplyMessage{
 		p.setOpaque(false);
 		p.add(refreshInfo_b,"gapleft 20,gaptop 10,wrap");
 		p.add(new FrameRemarkPane(),"gaptop 25,wrap");
-		p.add(createButton,"gaptop 70,gapleft 20");
+		p.add(createButton,"gaptop 55,gapleft 20");
 		
-		headPane.add(infoPane,"gapleft 15,gaptop 5");
-		headPane.add(p,"gapleft 120,gaptop 25");
+		headPane.add(infoPane,"gaptop 5");
+		headPane.add(p,"gapleft 80,gaptop 25");
 		
 		add(headPane);
 		repaint();
@@ -73,7 +74,7 @@ public class FramePane extends JPanel implements ViewReplyMessage{
 	public void showCreatePanel(){
 		removeAll();
 		add(new CreateFramePane(),"gapbottom 50,wrap");
-		ImageIcon icon1=new ImageIcon("./icon/return.png");
+		ImageIcon icon1=new ImageIcon(returnButton);
 		JButton return_b=new JButton(icon1);
 		return_b.setContentAreaFilled(false);
 		return_b.setBorderPainted(false);

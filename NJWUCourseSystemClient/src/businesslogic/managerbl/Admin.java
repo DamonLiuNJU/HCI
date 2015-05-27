@@ -2,6 +2,7 @@ package businesslogic.managerbl;
 
 
 import java.rmi.RemoteException;
+import java.util.Calendar;
 
 import po.TeacherPO;
 import po.managerpo.ManagerPO;
@@ -9,7 +10,9 @@ import po.studentpo.StudentPO;
 import rmiconnector.RemoteDataFactory;
 import vo.adminvo.UserVO;
 import businesslogic.planbl.Plan;
+import businesslogic.studentbl.FacultyStudent;
 import businesslogic.teacherbl.Teacher;
+import businesslogic.teacherbl.TeacherList;
 import businesslogicservice.managerblservice.AdminBLService;
 import dataservice.managerdataservice.AdminDataService;
 
@@ -225,33 +228,62 @@ public class Admin extends Manager implements AdminBLService{
 		return mp;
 	}
 
-//	@Override
-//	public boolean isValid(String id, String password) {
-//		// TODO Auto-generated method stub
-//		char[] temp = id.toCharArray();
-//		if(!((temp.length == 2)&&(temp[0] == '0'))){
-//			return false;
-//		}
-//		if(!new Manager().isIDExist(id)){
-//			return false ;
-//		}
-//		
-//		else {
-//			try {
-//				ManagerPO mp = (ManagerPO) adminData.findUser(id);
-//				if(password.equals(mp.getPassword())){
-//					return true;
-//				}
-//				return false;
-//			} catch (RemoteException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-//		}
-//		return false;
-//	}
+	@Override
+	public String idAutomate(String type ,String faculty_name) {
+		// TODO Auto-generated method stub
+		//id格式为：head + faculty + tail （head是头标识，区分用户类型，faculty是院系id，管理员和教务处老师无
+		//tail是尾标识，为人数标识）
+		String faculty_id = new Plan().getFacultyID(faculty_name);
+		String head = "";
+		int count = 0;
+		String tail = "";
+		int length = 0;
+		switch (type) {
+		case "Admin":
+			head = "0";
+			faculty_id = "";
+			break;
+		case "Dean":
+			head = "1";
+			faculty_id = "";
+			count = new Dean().getDeanCount() + 1;
+			length = 1;
+			break;
+		case "Faculty":
+			head = "1";
+			count = new Faculty().getFacultyCount(faculty_name) + 1;
+			length = 2;
+			break;
+		case "Teacher":
+			head = "2";
+			count = new TeacherList().getTeacherList(faculty_name).size() + 1;
+			length = 3;
+			break;
+		case "Student":
+			Calendar cal = Calendar.getInstance();
+			head = cal.get(Calendar.YEAR) + "";
+			head = head.substring(2);
+			count = new FacultyStudent().getAllStudentsByFacID(faculty_id).size() +1;
+			length = 3;
+			break;
+		}
+		tail = this.getTail(count, length);
+		
+		return head + faculty_id + tail;
+	}
 	
+	private String getTail(int count , int length){
+		String tail=String.valueOf(count);
+		String [] ss = {"","0","00","000"};
+		tail = ss[length - tail.length()] + tail;
+		
+		return tail;
+	}
 	
-	
+	public static void main(String[] args){
+		Admin admin = new Admin();
+		String id = admin.idAutomate("Faculty", "软件学院");
+		System.out.println(id);
+	}
+
 }

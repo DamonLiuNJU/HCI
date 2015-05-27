@@ -42,7 +42,7 @@ public class RMIConnector {
 		typeArray.add("Plan");
 		typeArray.add("Course");
 		typeArray.add("Admin");
-		typeArray.add("Credit");
+//		typeArray.add("Credit");
 		typeArray.add("Apply");
 		typeArray.add("ManageStatus");
 		typeArray.add("Frame");
@@ -55,6 +55,6 @@ public class RMIConnector {
 		typeArray.add("StudentRegistry");
 		typeArray.add("TempSelection");
 		typeArray.add("FrameRemark");
-		
+		typeArray.add("CreditRestrict");
 	}
 }

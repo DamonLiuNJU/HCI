@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -23,15 +25,16 @@ import org.jvnet.substance.skin.AutumnSkin;
 import org.jvnet.substance.skin.SubstanceSaharaLookAndFeel;
 import org.jvnet.substance.theme.SubstanceOliveTheme;
 
+import presentation.courseselectionui.QuitCoursePanel;
+import presentation.courseselectionui.SelectCourseModule;
+import presentation.studentui.CourseCommentPanel;
 import presentation.studentui.CourseConditionPanel;
 import presentation.studentui.ExitButton;
 import presentation.studentui.GetCourseInfoPanel;
 import presentation.studentui.MajorTransferPanel;
 import presentation.studentui.PersonalInfoPanel;
-import presentation.studentui.QuitCoursePanel;
 import presentation.studentui.ReplyPanel;
 import presentation.studentui.ScorePanel;
-import presentation.studentui.SelectCourseModule;
 import presentation.studentui.SettingButton;
 import presentation.studentui.Tool;
 import presentation.tools.Setter;
@@ -89,7 +92,7 @@ public class StudentMainUI extends JFrame {
 	JButton replybutton;
 	JButton aboutbutton ;
 	
-	public JFrame createFrame(String student_id){
+	public JFrame createFrame(String student_id,JFrame loginframe){
 		
 		
 		this.setIconImage(icon.getImage());
@@ -119,8 +122,8 @@ public class StudentMainUI extends JFrame {
 		JPanel quitcoursepanel=new QuitCoursePanel().getQuitCoursePanel(student_id);
 		JPanel personalpanel=new PersonalInfoPanel().getMainPanel(student_id);
 		JPanel courseconditionpanel = new CourseConditionPanel(student_id);
-		
-		pane=this.getJTabbedPane(getcoursepanel,getscorepanel,selectcoursepanel,quitcoursepanel,getcheckinfopanel ,personalpanel,courseconditionpanel);
+		JPanel coursecommentpanel = new CourseCommentPanel(student_id);
+		pane=this.getJTabbedPane(getcoursepanel,getscorepanel,selectcoursepanel,quitcoursepanel,getcheckinfopanel ,personalpanel,courseconditionpanel,coursecommentpanel);
 		
 		container.add(pane);
 		this.repaint();
@@ -129,7 +132,7 @@ public class StudentMainUI extends JFrame {
 		int tabbedpanewedth=800;
 		int tabbedpaneheight=550;
 		settingbutton=new SettingButton().getSettingButton(student_id);
-		exitbutton=this.getExitButtion();
+		exitbutton=this.getExitButtion(loginframe);
 //		container.add(settingbutton);
 //		container.add(exitbutton);
 		
@@ -143,14 +146,14 @@ public class StudentMainUI extends JFrame {
 		int timelabelwidth=200;
 		int timelabelheight=40;
 		
-		timelabel.setBounds(300,10, timelabelwidth, timelabelheight);
+		timelabel.setBounds(5,10, timelabelwidth, timelabelheight);
 		
 		//welcome label
 		welcomelabel=new JLabel();
 //		String studenNo=studentnumber;
-		welcomelabel.setText("Welcome! Student  : "+new StudentInfo().getStudentNameByID(student_id));
+		welcomelabel.setText("学生 : "+new StudentInfo().getStudentNameByID(student_id));
 		container.add(welcomelabel);
-		welcomelabel.setBounds(5, 0, 200, 50);
+		welcomelabel.setBounds(5, 0, 200, 20);
 		
 		//反馈信息等
 		replybutton = new JButton("");
@@ -211,9 +214,9 @@ public class StudentMainUI extends JFrame {
 		return this;
 	}
 	
-	private JTabbedPane getJTabbedPane(JPanel courseinfopanel,JPanel scorepanel,JPanel selectcoursepanel,JPanel quitcoursepanel, JPanel admissionpanel,JPanel personalInfopanel,JPanel courseconditionpanel){
+	private JTabbedPane getJTabbedPane(JPanel courseinfopanel,JPanel scorepanel,JPanel selectcoursepanel,JPanel quitcoursepanel, JPanel admissionpanel,JPanel personalInfopanel,JPanel courseconditionpanel,final JPanel coursecommentpanel){
 		
-		JTabbedPane tabpane=new JTabbedPane(JTabbedPane.TOP, JTabbedPane.HORIZONTAL);
+		final JTabbedPane tabpane=new JTabbedPane(JTabbedPane.TOP, JTabbedPane.HORIZONTAL);
 		String title3="选择课程";
 		String tip3="Select Course or Quit Your Course here";
 		tabpane.addTab(title3,null,selectcoursepanel,tip3);
@@ -249,17 +252,52 @@ public class StudentMainUI extends JFrame {
 		tabpane.addTab(title7, null,courseconditionpanel,tip7);
 		tabpane.setIconAt(6, new ImageIcon(Tool.permission));
 
+		String title8 = "课程评估";
+		String tip8 = "评价教师与课程";
+		tabpane.addTab(title8, null,coursecommentpanel,tip8);
+		tabpane.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO 自动生成的方法存根
+				
+			}
+		});
 		return tabpane;
 	}
 	
 	
 	
-	private JButton getExitButtion(){
-		return new ExitButton().getexitbutton(this);
+	private JButton getExitButtion(JFrame loginFrame){
+		return new ExitButton(loginFrame).getexitbutton(this);
 	}	 
 	private JLabel getTimeLabel(){
 		final JLabel label=new JLabel();
-		Tool.setLabel(Tool.clock,label);
+//		Tool.setLabel(Tool.clock,label);
 		new Thread(){
 			@SuppressWarnings("deprecation")
 			public void run(){
@@ -275,9 +313,9 @@ public class StudentMainUI extends JFrame {
 		return label;
 	}
 	
-//	public static void main(String args[]){
-//		new StudentMainUI().createFrame("121250089");
-//	}
+	public static void main(String args[]){
+//		new StudentMainUI().createFrame("121250089").setVisible(true);
+	}
 	
 }
 

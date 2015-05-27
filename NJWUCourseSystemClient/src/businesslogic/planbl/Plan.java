@@ -1,7 +1,6 @@
 package businesslogic.planbl;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-
 import po.planpo.FacultyPO;
 import rmiconnector.RemoteDataFactory;
 import vo.PlanVO;
@@ -11,13 +10,6 @@ public class Plan {
 			String plan;//院系教学计划
 			PlanDataService  pds=(PlanDataService)new RemoteDataFactory().getData("Plan");
 	
-	public  static void main(String arg[]){
-		Plan plan=new Plan();
-//	Faculty f=new Faculty();
-	System.out.println(plan.getFacultyName("004"));
-	//	System.out.println(	plan.showContent("001"));
-	
-	} 
 	
 	//构造方法
 	public Plan(){
@@ -27,6 +19,7 @@ public class Plan {
 	//构造方法：此处id为发布plan的教务员的教工号
 	public Plan(String  id,String plan){
 			this.id=id;
+			System.out.println(id);
 			this.plan=plan;
 	}
 	//院系id—>院系教学计划:教学计划默认为“”
@@ -60,6 +53,7 @@ public class Plan {
 			return list; 
 	}
 	//更新院系教学计划(前置条件使用有参数的构造方法)
+
 	public void  importPlan() throws RemoteException  {
 			FacultyPO fp=new FacultyPO();
 			fp = pds.find(id);
@@ -95,4 +89,32 @@ public class Plan {
 			}
 			return "error";
 		}
+    //得到院系plan未上传的个数
+	public int getEmptyPlanNum(){
+		int n=0;
+		ArrayList<FacultyPO>fpList=new ArrayList<FacultyPO>();
+		try {
+				fpList=pds.finds();
+		} catch (RemoteException e) {
+				e.printStackTrace();
+		}
+		for(int i=0;i<fpList.size();i++){
+			System.out.println(fpList.get(i).getPlan());
+			if(fpList.get(i).getPlan().equals("")){
+				
+				n++;
+			}
+		}
+		return n;
+	}
+
+	public  static void main(String arg[]) throws RemoteException{
+		Plan plan=new Plan("100101","test");
+		plan.importPlan();
+	
+		//System.out.println(plan.getEmptyPlanNum());
+	//	System.out.println(	plan.showContent("001"));
+	
+	} 
+	
 }

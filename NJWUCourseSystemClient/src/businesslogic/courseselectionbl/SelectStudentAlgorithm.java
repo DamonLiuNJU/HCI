@@ -11,6 +11,7 @@ import vo.studentvo.CourseConditionPanelVO;
 import businesslogic.coursebl.Course;
 import businesslogic.creditbl.Credit;
 import businesslogic.studentbl.CourseCondition;
+import businesslogicservice.courseselectionblservice.SelectStudentAlgorithmBLService;
 import dataservice.courseselectiondataservice.SelectCourseRecordDataService;
 import dataservice.courseselectiondataservice.TempSelectionDataService;
 
@@ -20,7 +21,7 @@ import dataservice.courseselectiondataservice.TempSelectionDataService;
  * 选课方法将根据课程依次选择。
  * 每一门课程选择完成后，将最终选课结果写入SelectCourseRecord表中，在temp表中删除该课程的所有选课记录
  */
-public class SelectStudentAlgorithm {
+public class SelectStudentAlgorithm implements SelectStudentAlgorithmBLService{
 
 	// 选择学生的算法
 	ArrayList<TempSelectionPO> courseList;
@@ -57,6 +58,7 @@ public class SelectStudentAlgorithm {
 		}
 	}
 
+	@Override
 	public boolean processFinalList() {
 		for (int i = 0; i < courseArray.size(); i++) {
 			if (!this.processOneCourse(courseArray.get(i))) {
@@ -64,6 +66,16 @@ public class SelectStudentAlgorithm {
 			}
 		}
 		return true;
+	}
+	
+
+	@Override
+	public boolean isProcessed() {
+		// TODO Auto-generated method stub
+		if(courseList.size() == 0){
+			return true;
+		}
+		return false;
 	}
 
 	// 计算一门课程的选课学生
@@ -255,22 +267,6 @@ public class SelectStudentAlgorithm {
 			}
 		}
 
-	}
-
-	public static void main(String[] args) {
-		// TODO 自动生成的方法存根
-		ArrayList<TempSelectionPO> courseList = new ArrayList<TempSelectionPO>();
-		TempSelectionPO tempPO1 = new TempSelectionPO("12125089", "c0007", "0", "大一上");
-		TempSelectionPO tempPO2 = new TempSelectionPO("12125003", "c0007", "0", "大二上");
-//		TempSelectionPO tempPO3 = new TempSelectionPO("12125083", "c2003", "0", "大一上");
-//		TempSelectionPO tempPO4 = new TempSelectionPO("12125082", "c2003", "0", "大一上");
-//		TempSelectionPO tempPO5 = new TempSelectionPO("12125081", "c2003", "0", "大一上");
-		courseList.add(tempPO1);
-		courseList.add(tempPO2);
-		
-		SelectStudentAlgorithm test = new SelectStudentAlgorithm("通识课");
-		boolean back = test.processFinalList();
-		System.out.println(back);
 	}
 
 }

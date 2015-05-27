@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
 import presentation.managerui.SentMessageFrame;
+import presentation.planui.PlanCountLabel;
 import presentation.planui.PlanList;
 import presentation.planui.PlanTextArea;
 import presentation.tools.OutputHelper;
@@ -21,7 +22,7 @@ import presentation.tools.Setter;
 import presentation.tools.ViewReplyMessage;
 
 @SuppressWarnings("serial")
-public class PlanPane extends JPanel implements ViewReplyMessage{	
+public class PlanPane extends JPanel implements ViewReplyMessage,DeanUIImage{	
 	@SuppressWarnings("rawtypes")
 	JComboBox facultyBox;
 	JScrollPane jsp;
@@ -50,6 +51,7 @@ public class PlanPane extends JPanel implements ViewReplyMessage{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				facultyName=facultyBox.getSelectedItem().toString();
+				System.out.println(facultyName);
 				new PlanTextArea().setPlanTextArea(facultyName,plan);				
 			}			
 		});
@@ -60,7 +62,7 @@ public class PlanPane extends JPanel implements ViewReplyMessage{
 		
 		JPanel p=new JPanel(new MigLayout());
 		p.setOpaque(false);
-		ImageIcon img=new ImageIcon("./icon/le1.png");
+		ImageIcon img=new ImageIcon(bigLetter);
 		JButton b2=new JButton("修改建议",img);
 		new Setter().setButtonWithImage(b2);
 		b2.addActionListener(new ActionListener(){
@@ -77,10 +79,13 @@ public class PlanPane extends JPanel implements ViewReplyMessage{
 		});
 		p.add(b2,"gaptop 180");
 		
+		JLabel la=new PlanCountLabel();
+		
 		this.add(p0,"gapleft 5,wrap");
 		this.add(label2,"gapleft 15,wrap");
 		this.add(jsp);
-		this.add(p,"gapleft 150");
+		this.add(p,"gapleft 150,wrap");
+		this.add(la,"gapleft 320");
 	}
 	
 }

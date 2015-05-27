@@ -3,10 +3,10 @@ package businesslogic.statusbl;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import businesslogicservice.statusblservice.StatusService;
+import businesslogicservice.statusblservice.StatusBLService;
 
 
-public abstract class Status implements StatusService{
+public abstract class Status implements StatusBLService{
    BoundDate on;
    BoundDate off;
    

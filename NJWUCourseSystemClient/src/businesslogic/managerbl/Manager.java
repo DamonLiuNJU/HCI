@@ -1,6 +1,7 @@
 package businesslogic.managerbl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import po.managerpo.ManagerPO;
 import rmiconnector.RemoteDataFactory;
@@ -69,6 +70,20 @@ public class Manager{
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * 得到所有managerpo列表
+	 * @return
+	 */
+	protected ArrayList<ManagerPO> getAllManagers(){
+		ArrayList<ManagerPO> mpList=new ArrayList<ManagerPO>();
+		try {
+			mpList=data.finds();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return mpList;
 	}
 	
 	public boolean isIDExist(String id){

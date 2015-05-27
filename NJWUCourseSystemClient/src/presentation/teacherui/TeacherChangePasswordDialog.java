@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 import businesslogic.teacherbl.Teacher;
 
@@ -20,7 +20,7 @@ public class TeacherChangePasswordDialog extends JDialog implements MouseListene
 	private static final long serialVersionUID = 1L;
 	
 	JLabel old , newP , newP2 ;
-	JTextField oldPass , newPass , newPass2 ;
+	JPasswordField oldPass , newPass , newPass2 ;
 	JButton sure , cancel ;
 	JPanel panel , buttonPane;
 	Teacher teacher ;
@@ -34,9 +34,9 @@ public class TeacherChangePasswordDialog extends JDialog implements MouseListene
 		newP = new JLabel("新密码：");
 		newP2 = new JLabel("再次输入：");
 		
-		oldPass = new JTextField(17);
-		newPass = new JTextField(17);
-		newPass2 = new JTextField(16);
+		oldPass = new JPasswordField(17);
+		newPass = new JPasswordField(17);
+		newPass2 = new JPasswordField(16);
 		
 		panel = new JPanel();
 		panel.setBounds(0 , 0 , 300 , 100);
@@ -70,15 +70,22 @@ public class TeacherChangePasswordDialog extends JDialog implements MouseListene
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == sure){
-			if((!newPass.getText().equals(""))&&(newPass.getText().equals(newPass2.getText()))){
-				String newPassword = newPass.getText();
-				String oldPassword = oldPass.getText();
+			if((oldPass.getPassword().length != 0)&&(newPass.getPassword().length !=0)&&(newPass2.getPassword().length!=0)){
+				String newPass1 = new String(newPass.getPassword());
+				String pass2 = new String(newPass2.getPassword());
+				if(!newPass1.equals(pass2)){
+					JOptionPane.showMessageDialog(this, "两次输入密码不一致，请重新输入");
+					return ;
+				}
+				
+				String newPassword = new String(newPass.getPassword());
+				String oldPassword = new String(oldPass.getPassword());
 				
 				String backInfo = teacher.changePassword(oldPassword, newPassword);
 				JOptionPane.showMessageDialog(this, backInfo);
 				this.dispose();
 			}
-			else JOptionPane.showMessageDialog(this, "两次输入不一致，请重新输入");
+			else JOptionPane.showMessageDialog(this, "输入不完整，请重新输入");
 		}
 		else if(e.getSource() == cancel){
 			this.dispose();

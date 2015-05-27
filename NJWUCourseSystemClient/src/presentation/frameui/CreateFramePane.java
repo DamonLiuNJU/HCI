@@ -16,13 +16,14 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 import net.miginfocom.swing.MigLayout;
+import presentation.deanui.DeanUIImage;
 import presentation.tools.OutputHelper;
 import presentation.tools.Setter;
 import presentation.tools.ViewReplyMessage;
 import businesslogic.framebl.Frame;
 
 @SuppressWarnings("serial")
-public class CreateFramePane extends JPanel implements ViewReplyMessage{
+public class CreateFramePane extends JPanel implements ViewReplyMessage,DeanUIImage{
 	JPanel panel;
 	ArrayList<JScrollPane> paneList=new ArrayList<JScrollPane>();
 	ArrayList<JTextArea> textList=new ArrayList<JTextArea>();
@@ -46,7 +47,7 @@ public class CreateFramePane extends JPanel implements ViewReplyMessage{
 		JPanel p1=new JPanel(new MigLayout());
 		p1.setOpaque(false);
 		JLabel l=new JLabel(">> 创建新框架");
-		ImageIcon icon1=new ImageIcon("./icon/add4.png");
+		ImageIcon icon1=new ImageIcon(addButton);
 		JButton addButton=new JButton(icon1);
 		new Setter().setButtonWithImage(addButton);
 		addButton.addActionListener(new ActionListener(){

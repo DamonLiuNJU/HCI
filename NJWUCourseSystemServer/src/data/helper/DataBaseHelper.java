@@ -25,13 +25,13 @@ public class DataBaseHelper {
 	 
 	 public void update(String sqlInfo){
 		   conn = getConnection(); 
-//	       try {  
-//	           st = (Statement) conn.createStatement();      
-//	           st.executeUpdate(sqlInfo);
-//	           conn.close();   
-//	       } catch (SQLException e) {  
-//	           System.out.println("error");  
-//	       }  
+	       try {  
+	    	   st = (Statement) conn.createStatement();      
+	           st.executeUpdate(sqlInfo);
+	           conn.close();   
+	       } catch (SQLException e) {  
+	           System.out.println("error");  
+	       }  
 	   }
 	   public void delete(String sqlInfo){
 		   conn = getConnection();  
@@ -122,9 +122,9 @@ public class DataBaseHelper {
 	           Class.forName("com.mysql.jdbc.Driver");
 	             
 	           con = DriverManager.getConnection(  
-	                   "jdbc:mysql://localhost:3306/coursesystem", "root", "root");
+	                   "jdbc:mysql://localhost:3306/coursesystem", "root", "");
 	       } catch (Exception e) {  
-	           System.out.println("数据库连接失败" + e.getMessage());  
+	           System.out.println("鏁版嵁搴撹繛鎺ュけ璐�" + e.getMessage());  
 	       }  
 	       return con; 
 	   }  
