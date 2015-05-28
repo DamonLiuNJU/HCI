@@ -28,7 +28,7 @@ public class SelectCourseStatus extends CourseStatus {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-	}
+	} 
 
 	@Override
 	public void setTime(BoundDate ft1, BoundDate ft2) {
