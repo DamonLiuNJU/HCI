@@ -46,7 +46,7 @@ public class SelectCourseRecordMySql extends UnicastRemoteObject implements Sele
 		try {
 			Class.forName(driver);// 加载Mysql数据驱动
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"
-					+ databasename, username, password);// 创建数据连接
+					+ databasename+"?useUnicode=true&characterEncoding=UTF-8", username, password);// 创建数据连接
 			System.out.println("Connect to database :<" + databasename
 					+ ">Success! ");
 		} catch (Exception e) {

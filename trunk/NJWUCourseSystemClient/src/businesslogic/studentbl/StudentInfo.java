@@ -267,7 +267,9 @@ public class StudentInfo implements StudentInfoBLService   {
 		// String part1 = "";
 
 		String[] temp = { "大一", "大二", "大三", "大四" };
-
+		if( g > 3){
+			g = 3;
+		}
 		result = temp[g] + up;
 
 		// switch(result){
@@ -347,9 +349,10 @@ public class StudentInfo implements StudentInfoBLService   {
 		// String part1 = "";
 
 		String[] temp = { "大一", "大二", "大三", "大四" };
-
+		if(g > 3){
+			g = 3;
+		}
 		result = temp[g] + up;
-
 		return result;
 	}
 

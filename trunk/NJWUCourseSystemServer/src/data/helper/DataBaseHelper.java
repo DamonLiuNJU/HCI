@@ -51,7 +51,7 @@ public class DataBaseHelper {
 		   conn = getConnection(); 
 		   String s="";
 	       try {  
-	           st = (Statement) conn.createStatement();   
+	           st =  conn.createStatement();   
 	           ResultSet rs = st.executeQuery(sqlInfo); 
 	       
 	           InfoFormat format=new InfoFormat();
@@ -64,7 +64,7 @@ public class DataBaseHelper {
 			   }
 			   conn.close(); 	             
 	       	} catch (SQLException e) {  
-	           System.out.println("error");  
+	           e.printStackTrace();
 	       }
 	       return s;	       
 	   }
@@ -97,7 +97,7 @@ public class DataBaseHelper {
 	           Class.forName("com.mysql.jdbc.Driver");
 	             
 	           con = DriverManager.getConnection(  
-	                   "jdbc:mysql://localhost:3306/coursesystem", "root", "root");
+	                   "jdbc:mysql://localhost:3306/coursesystem"+"?useUnicode=true&characterEncoding=UTF-8", "root", "root");
 	       } catch (Exception e) {  
 	           System.out.println("数据库连接失败" + e.getMessage());  
 	       }  
