@@ -51,12 +51,12 @@ public class TeachingInfo extends JPanel implements MouseListener , ReplyMessage
 		
 		jb1_1 = new JButton("查看学生列表");
 		jb1_1.setBounds(150 , 0 , 150 ,30);
-		TeacherUITool.setButtonIcon(TeacherUITool.show, jb1_1);
+//		TeacherUITool.setButtonIcon(TeacherUITool.show, jb1_1);
 		jb1_1.addMouseListener(this);
 		
 		jb1_2 = new JButton("登记成绩");
 		jb1_2.setBounds(650 , 0 , 100 ,30);
-		TeacherUITool.setButtonIcon(TeacherUITool.record, jb1_2);
+//		TeacherUITool.setButtonIcon(TeacherUITool.record, jb1_2);
 		jb1_2.addMouseListener(this);
 		
 		buttonPane1.add(jb1_1);
