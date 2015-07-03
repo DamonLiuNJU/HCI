@@ -17,8 +17,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
+import businesslogic.managerbl.Manager;
 import net.miginfocom.swing.MigLayout;
-
 import presentation.courseui.CourseStatInfoPane;
 import presentation.deanui.DeanUIImage;
 import presentation.deanui.MainAuditPane;
@@ -29,8 +29,9 @@ import presentation.managerui.HeadInfoLabel;
 import presentation.managerui.ManagerInfoPane;
 import presentation.managerui.MessageInfoFrame;
 import presentation.teacherui.TeacherStatInfoPane;
-import presentation.tools.MyComponent;
+import presentation.tools.PublicComponents;
 import presentation.tools.Setter;
+import presentation.tools.UIConstants;
 
 public class DeanMainUI implements DeanUIImage{
 	    JFrame deanFrame;
@@ -43,7 +44,7 @@ public class DeanMainUI implements DeanUIImage{
 	    JPanel courseInfoPane;    //课程统计信息面板
 	    JTabbedPane auditPane;         //资格审核面板
 	    
-	    MyComponent comp=new MyComponent();//获取一个自定义通用组件对象
+	    PublicComponents comp=new PublicComponents();//获取一个自定义通用组件对象
 	    Setter setter=new Setter();
 	    
 	    String id;//当前用户id
@@ -199,19 +200,22 @@ public class DeanMainUI implements DeanUIImage{
 		
 	    //教务处老师界面最上层一栏面板
 	    public JPanel getUpPane(){
-	    	JPanel p0=new JPanel(new MigLayout());
+	    	JPanel p0=new JPanel(null);
 	    	p0.setOpaque(false);
-	    	JLabel label = new JLabel("欢迎 ");
-	    	label.setFont(new Font("华文楷体", Font.BOLD, 18));
-	    	HeadInfoLabel head=new HeadInfoLabel(id);
-	    	JLabel label0=head.getDeanImageLabel();
-	    	JLabel label1=head.getNameLabel();
+//	    	JLabel label = new JLabel("欢迎 ");
+//	    	label.setFont(new Font("华文楷体", Font.BOLD, 18));
+//	    	HeadInfoLabel head=new HeadInfoLabel(id);
+//	    	JLabel label0=head.getDeanImageLabel();
+//	    	JLabel label1=head.getNameLabel();
 
-	        p0.add(getMenuBar(),"split, span,gapleft 700,wrap");
-	        p0.add(comp.getTimeLabel(),"gapleft 700,wrap");
-	        p0.add(label, "split");
-	        p0.add(label0);
-	        p0.add(label1);
+//	        p0.add(getMenuBar(),"split, span,gapleft 700,wrap");
+//	        p0.add(PublicComponents.getTimeLabel(UIConstants.DEAN, new Manager(id).getName()),"gapleft 700,wrap");
+	        JLabel timelabel = PublicComponents.getTimeLabel(UIConstants.DEAN, new Manager(id).getName());
+	        p0.add(timelabel);
+	        timelabel.setBounds(5, 0, 200, 40);
+//	        p0.add(label, "split");
+//	        p0.add(label0);
+//	        p0.add(label1);
 	        p0.add(new JSeparator(), "growx, wrap");
 	        return p0;
 	    }

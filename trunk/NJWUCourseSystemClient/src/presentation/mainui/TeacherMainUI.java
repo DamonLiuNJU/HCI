@@ -27,7 +27,8 @@ import org.jvnet.substance.watermark.SubstanceBubblesWatermark;
 import presentation.teacherui.ApplyPane;
 import presentation.teacherui.TeacherInfoPane;
 import presentation.teacherui.TeachingInfo;
-import presentation.tools.MyComponent;
+import presentation.tools.PublicComponents;
+import presentation.tools.UIConstants;
 import businesslogic.teacherbl.Teacher;
 
 /*
@@ -99,16 +100,16 @@ public class TeacherMainUI extends JFrame implements MouseListener {
 		northJP.setSize(1000, 100);
 		northJP.setOpaque(false);
 
-		welcomeLabel = new JLabel("欢迎 ：" + teacher.getName());
-		welcomeLabel.setBounds(50, 30, 200, 40);
+//		welcomeLabel = new JLabel("欢迎 ：" + teacher.getName());
+//		welcomeLabel.setBounds(50, 30, 200, 40);
 
-		MyComponent mc = new MyComponent();
-		timeLabel = mc.getTimeLabel();
-		timeLabel.setBounds(750, 30, 200, 40);
+		PublicComponents mc = new PublicComponents();
+		timeLabel = PublicComponents.getTimeLabel(UIConstants.TEACHER, teacher.getName());
+		timeLabel.setBounds(5, 0, 200, 40);
 		
 		this.setMyMenuBar();
 
-		northJP.add(welcomeLabel);
+//		northJP.add(welcomeLabel);
 		northJP.add(timeLabel);
 		northJP.add(mb);
 
@@ -163,7 +164,7 @@ public class TeacherMainUI extends JFrame implements MouseListener {
 		aboutMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){	
-				JFrame aboutFrame=new MyComponent().getAboutFrame();
+				JFrame aboutFrame=new PublicComponents().getAboutFrame();
 				aboutFrame.setVisible(true);
 			}			
 		});
@@ -171,7 +172,7 @@ public class TeacherMainUI extends JFrame implements MouseListener {
 		replyMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){	
-				JFrame replyFrame=new MyComponent().getReplyFrame();
+				JFrame replyFrame=new PublicComponents().getReplyFrame();
 				replyFrame.setVisible(true);
 			}				
 		});
