@@ -151,6 +151,18 @@ public class PublicCourseSelection {
 			}
 		});
 
+		JButton backButton = new JButton("返回");
+		backButton.setBounds(700,450,70,30);
+		backButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame.dispose();
+			}
+		});
+		panel.add(backButton);
+		
 		JButton cancelselect = new JButton("删除选择");
 		cancelselect.addActionListener(new ActionListener() {
 

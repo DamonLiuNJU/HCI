@@ -106,12 +106,17 @@ public class PersonalInfoPanel {
 		label8.setSize(textfieldlength, height);
 		label9.setSize(textfieldlength, height);
 		
-		
-		
-		
-		
-		
-		
+		StudentInfoBLService si = new StudentInfo();
+		StudentInfoVO vo = si.getPersonInfo(student_id);
+		name.setText(vo.getName());
+		studentnumber.setText(vo.getID());
+		homeaddress.setText(vo.getHomeAddress());
+		phone.setText(vo.getPhone());
+		mother.setText(vo.getMotherName());
+		motherphone.setText(vo.getMotherPhone());
+		father.setText(vo.getFatherName());
+		fatherphone.setText(vo.getFatherPhone());
+		contactinfo .setText(vo.getContactInfo());
 		
 		JButton showpersoninfo=new JButton("显示信息");
 		Tool.setIcon(Tool.find, showpersoninfo);
@@ -134,6 +139,8 @@ public class PersonalInfoPanel {
 			
 			}
 		});
+		
+		
 		JButton modify =new JButton("提交修改");
 		Tool.setIcon(Tool.correct, modify);
 		modify.addActionListener(new ActionListener() {
@@ -156,7 +163,7 @@ public class PersonalInfoPanel {
 				JOptionPane.showMessageDialog(null, "修改成功");
 			}
 		});
-		mainpanel.add(showpersoninfo);
+//		mainpanel.add(showpersoninfo);
 		mainpanel.add(modify);
 		
 		showpersoninfo.setBounds(40, 370, 100, height);

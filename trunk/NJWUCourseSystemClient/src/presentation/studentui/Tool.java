@@ -21,7 +21,7 @@ public class Tool {
 	public static String schoolmarkpath = "./icon/student/mark.png";
 	public static String quitimage = "./icon/student/quit32.png";
 	public static String helpimage = "./icon/student/help32.png";
-	public static String settingimage = "./icon/student/setting64.png";
+	public static String settingimage = "./icon/key.png";
 	public static String mailimage = "./icon/student/mail32.png";
 	public static String bookimage = "./icon/student/book 64 .png";
 	public static String clock = "./icon/student/clock32.png";

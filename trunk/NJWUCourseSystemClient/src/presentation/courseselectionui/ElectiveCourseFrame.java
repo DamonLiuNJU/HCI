@@ -182,6 +182,18 @@ public class ElectiveCourseFrame extends JFrame{
 
 		panel.add(cancelselect);
 		cancelselect.setBounds(170, 500, 100, 40);
+		
+		JButton backButton = new JButton("返回");
+		backButton.setBounds(700,450,70,30);
+		backButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame.dispose();
+			}
+		});
+		panel.add(backButton);
 
 		showcoursebutton.addActionListener(new ActionListener() {
 
