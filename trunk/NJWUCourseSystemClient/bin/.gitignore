@@ -1,8 +1,3 @@
-/presentation
-/rmiconnector
-/vo
-/Applyui_TestCase.class
-/Courseui_TestCase.class
 /businesslogic
 /businesslogicservice
 /courseblstub
@@ -10,7 +5,12 @@
 /framebltest
 /planblstub
 /planbltest
+/presentation
+/rmiconnector
 /selectcoursetest
 /studentblstub
 /studentbltest
 /teachertest
+/vo
+/Applyui_TestCase.class
+/Courseui_TestCase.class
