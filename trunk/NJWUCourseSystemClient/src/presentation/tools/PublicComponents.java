@@ -2,6 +2,7 @@ package presentation.tools;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.util.Date;
 
@@ -12,17 +13,43 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
-public class MyComponent {
+public class PublicComponents {
 
-	public JLabel getTimeLabel() {
-		final JLabel label = new JLabel();
+//	public JLabel getTimeLabel() {
+//		final JLabel label = new JLabel();
+//		new Thread() {
+//			@Override
+//			@SuppressWarnings("deprecation")
+//			public void run() {
+//				try {
+//					while (true) {
+//						label.setText(new Date().toLocaleString());
+//						Thread.sleep(1000);
+//					}
+//				} catch (Exception e) {
+//					System.out.print("System error.");
+//				}
+//			}
+//		}.start();
+//		return label;
+//	}
+	
+	public static JLabel getTimeLabel(String title,String name) {
+		final JLabel timelabel = new JLabel();
+		final JLabel usernamelabel = new JLabel();
+		final JLabel containerlabel = new JLabel();
+		containerlabel.setBounds(0, 0, 400, 40);
+		
+		usernamelabel.setText("欢迎"+title+((name==null)?"":":"+name));
+		usernamelabel.setFont(new Font(UIConstants.FONT_TITLE, Font.BOLD, 18));
+		
 		new Thread() {
 			@Override
 			@SuppressWarnings("deprecation")
 			public void run() {
 				try {
 					while (true) {
-						label.setText(new Date().toLocaleString());
+						timelabel.setText(new Date().toLocaleString());
 						Thread.sleep(1000);
 					}
 				} catch (Exception e) {
@@ -30,7 +57,13 @@ public class MyComponent {
 				}
 			}
 		}.start();
-		return label;
+		
+		containerlabel.add(usernamelabel);
+		containerlabel.add(timelabel);
+		containerlabel.setLayout(null);
+		usernamelabel.setBounds(0, 0, containerlabel.getSize().width, 20);
+		timelabel.setBounds(0, containerlabel.getSize().height-usernamelabel.getSize().height, containerlabel.getSize().width, 20);
+		return containerlabel;
 	}
 
     public JFrame getReplyFrame(){   	

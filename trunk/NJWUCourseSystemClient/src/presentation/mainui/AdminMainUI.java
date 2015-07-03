@@ -21,8 +21,8 @@ import org.jvnet.substance.watermark.SubstanceBubblesWatermark;
 
 import presentation.adminui.SystemConditionPane;
 import presentation.adminui.UserManagePane;
-import presentation.tools.MyComponent;
-
+import presentation.tools.PublicComponents;
+import presentation.tools.UIConstants;
 import businesslogic.managerbl.Admin;
 
 /*
@@ -90,10 +90,10 @@ public class AdminMainUI extends JFrame implements MouseListener{
 		northPane.setLayout(null);
 		northPane.setBounds(0 , 0 , 1000 ,100 );
 		
-		MyComponent mc = new MyComponent();
-		timeLabel = mc.getTimeLabel();
-		timeLabel.setBounds(750, 30, 200, 40);
-		
+//		MyComponent mc = new MyComponent();
+		timeLabel = PublicComponents.getTimeLabel(UIConstants.ADMIN, null);
+		timeLabel.setBounds(5, 0, 200, 40);
+		this.add(timeLabel);
 		this.setMyMenuBar();
 		northPane.add(mb);
 		
@@ -137,7 +137,7 @@ public class AdminMainUI extends JFrame implements MouseListener{
 		aboutMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){	
-				JFrame aboutFrame=new MyComponent().getAboutFrame();
+				JFrame aboutFrame=new PublicComponents().getAboutFrame();
 				aboutFrame.setVisible(true);
 			}			
 		});
@@ -145,7 +145,7 @@ public class AdminMainUI extends JFrame implements MouseListener{
 		replyMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){	
-				JFrame replyFrame=new MyComponent().getReplyFrame();
+				JFrame replyFrame=new PublicComponents().getReplyFrame();
 				replyFrame.setVisible(true);
 			}				
 		});

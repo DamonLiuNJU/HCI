@@ -24,6 +24,7 @@ import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.AutumnSkin;
 import org.jvnet.substance.theme.SubstanceOliveTheme;
 
+import businesslogic.studentbl.StudentInfo;
 import presentation.courseselectionui.QuitCoursePanel;
 import presentation.courseselectionui.SelectCourseModule;
 import presentation.studentui.CourseCommentPanel;
@@ -36,17 +37,17 @@ import presentation.studentui.ReplyPanel;
 import presentation.studentui.ScorePanel;
 import presentation.studentui.SettingButton;
 import presentation.studentui.Tool;
-import presentation.tools.MyComponent;
+import presentation.tools.PublicComponents;
 import presentation.tools.Setter;
+import presentation.tools.UIConstants;
 import vo.courseselectionvo.CourseSelectionVO;
-import businesslogic.studentbl.StudentInfo;
 
 public class StudentMainUI extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1995874605973301364L;
-	
+	private StudentInfo studentinfo = new StudentInfo();
 	
 	
 	static {
@@ -131,19 +132,22 @@ public class StudentMainUI extends JFrame {
 		
 		
 		//time label
-		timelabel=new MyComponent().getTimeLabel();
+//		timelabel=new MyComponent().getTimeLabel();
+//		container.add(timelabel);
+//		
+//		int timelabelwidth=200;
+//		int timelabelheight=40;
+//		
+//		timelabel.setBounds(5,10, timelabelwidth, timelabelheight);
+//		
+//		//welcome label
+//		welcomelabel=new JLabel();
+//		welcomelabel.setText("学生 : "+new StudentInfo().getStudentNameByID(student_id));
+//		container.add(welcomelabel);
+//		welcomelabel.setBounds(5, 0, 200, 20);
+		timelabel = PublicComponents.getTimeLabel(UIConstants.STUDENT, studentinfo.getStudentNameByID(student_id));
 		container.add(timelabel);
-		
-		int timelabelwidth=200;
-		int timelabelheight=40;
-		
-		timelabel.setBounds(5,10, timelabelwidth, timelabelheight);
-		
-		//welcome label
-		welcomelabel=new JLabel();
-		welcomelabel.setText("学生 : "+new StudentInfo().getStudentNameByID(student_id));
-		container.add(welcomelabel);
-		welcomelabel.setBounds(5, 0, 200, 20);
+		timelabel.setBounds(5, 0, timelabel.getSize().width, timelabel.getSize().height);
 		
 		//反馈信息等
 		replybutton = new JButton("");
