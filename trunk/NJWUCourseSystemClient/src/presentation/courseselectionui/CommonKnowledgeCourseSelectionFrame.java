@@ -6,34 +6,19 @@ import presentation.tools.UIConstants;
 import businesslogic.courseselectionbl.SelectCourseInfo;
 import businesslogic.studentbl.Student;
 
-public class ElectiveCourseFrame extends CourseSelectionFrame{
+public class CommonKnowledgeCourseSelectionFrame extends CourseSelectionFrame{
 
 	/**
 	 * 
 	 */
-	 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5338131222748149557L;
+	private static final long serialVersionUID = 4681412790907671043L;
 
-	/**
-	 * @param args
-	 */
-	public ElectiveCourseFrame(Student s){
-
+	public CommonKnowledgeCourseSelectionFrame(Student s) {
 		super(s);
-		final String modelname = UIConstants.ElectiveCourseModule;
+		// TODO Auto-generated constructor stub
+		final String modelname = UIConstants.CommonKnowledgeCourseModule;
 		Vector<Vector<String>> mycourselist =new SelectCourseInfo().getSelectedCourse(s.getStudentID(), modelname); //store the lessons he has chosen;
 		this.showFrame(modelname,mycourselist);
-
 	}
-
-	
-	
-	
-	
-	
-	
 
 }
