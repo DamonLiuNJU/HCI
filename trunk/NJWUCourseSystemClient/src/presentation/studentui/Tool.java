@@ -3,6 +3,7 @@ package presentation.studentui;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.util.Date;
 
@@ -44,9 +45,10 @@ public class Tool {
 		Image temp = icon.getImage().getScaledInstance(25,25, Image.SCALE_DEFAULT);  
 		icon = new ImageIcon(temp);  
 		iconButton.setIcon(icon);  
-		iconButton.setOpaque(false);
-		iconButton.setContentAreaFilled(false);
-		iconButton.setBorderPainted(false);
+		iconButton.setOpaque(true);
+		iconButton.setContentAreaFilled(true);
+		iconButton.setBorderPainted(true);
+//		iconButton.setMargin(new Insets(10, 20,10, 20));
 	}  
 
 	public static void setLabel(String filename,JLabel label){

@@ -70,10 +70,10 @@ public abstract class CourseSelectionFrame extends JFrame {
 //		int buttonheight = 25;
 		int comboboxlenghth = 100;
 		int comboboxheight = 25;
-		JButton showcoursebutton = new JButton("");
-		Tool.setIcon(Tool.refreshbutton, showcoursebutton);
+//		JButton showcoursebutton = new JButton("");
+//		Tool.setIcon(Tool.refreshbutton, showcoursebutton);
 //		panel.add(showcoursebutton);
-		showcoursebutton.setBounds(125, 10, comboboxlenghth, comboboxheight);
+//		showcoursebutton.setBounds(125, 10, comboboxlenghth, comboboxheight);
 //		final JTable table = new CourseTable().getSelectCourseTable(modelname);
 		
 		final JTable courselisttable = new CourseListTable().getSelectCourseByModule(modelname);//from LL
@@ -82,11 +82,10 @@ public abstract class CourseSelectionFrame extends JFrame {
 		//修改
 		Tool.setOpaque(selectcoursetablepanel);
 		panel.add(selectcoursetablepanel);
-		final Rectangle selectcoursetablepanesize = new Rectangle(10, 40, 780, 400);
+		final Rectangle selectcoursetablepanesize = new Rectangle(10, 50, 780, 400);
 		selectcoursetablepanel.setBounds(selectcoursetablepanesize);
 		selectcoursetablepanel.setOpaque(false);
-		JLabel lable1 = new JLabel(
-				"点击“添加课程”按钮，将要选择的课程添加到右侧列表");
+		JLabel lable1 = new JLabel();
 		panel.add(lable1);
 		Rectangle r = new Rectangle(200, 10, 600, comboboxheight);
 		lable1.setBounds(r);
@@ -119,14 +118,12 @@ public abstract class CourseSelectionFrame extends JFrame {
 		});
 		panel.add(commitselect);
 		commitselect.setBounds(170, 450, 100, 40);
-		final JButton addtotempselect = new JButton("");
-		this.addtotemp = addtotempselect;  
 		
-		Tool.setIcon(Tool.add, addtotempselect);
-//		panel.add(addtotempselect);
-		addtotempselect.setBounds(10, 10, 40, 40);
-		addtotempselect.setIcon(new ImageIcon(Tool.add));
-		addtotempselect.addActionListener(new ActionListener() {
+		this.addtotemp = new JButton("添加选定课程");
+		
+//		addtotemp.setFont(UIConstants.DEFAULT_FONT);
+		addtotemp.setBounds(10, 10, 200, 30);
+		addtotemp.addActionListener(new ActionListener() {
 			/*
 			 * (non-Javadoc)感觉这个是都一样的，无需定制。
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -134,6 +131,9 @@ public abstract class CourseSelectionFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int rownumber = courselisttable.getSelectedRow();
+				if(rownumber < 0){
+					return;
+				}
 				String courseid = (String) courselisttable.getValueAt(rownumber, 0);
 				String coursename = (String) courselisttable.getValueAt(rownumber, 1);
 				boolean unabletoadd = false;
@@ -193,26 +193,26 @@ public abstract class CourseSelectionFrame extends JFrame {
 		panel.add(cancelselect);
 		cancelselect.setBounds(170, 500, 100, 40);
 
-		showcoursebutton.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)无需定制,通用的方法。
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO 自动生成的方法存根
-				final JTable table = new CourseListTable().getSelectCourseByModule(modelname);
-				panel.remove(selectcoursetablepanel);
-				panel.updateUI();
-				JScrollPane jsp = new JScrollPane(table);
-				panel.add(jsp);
-				Tool.setOpaque(jsp);
-				jsp.setBounds(selectcoursetablepanesize);
-				jsp.updateUI();
-				panel.updateUI();
-				panel.repaint();
-			}
-		});
+//		showcoursebutton.addActionListener(new ActionListener() {
+//			/*
+//			 * (non-Javadoc)无需定制,通用的方法。
+//			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+//			 */
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO 自动生成的方法存根
+//				final JTable table = new CourseListTable().getSelectCourseByModule(modelname);
+//				panel.remove(selectcoursetablepanel);
+//				panel.updateUI();
+//				JScrollPane jsp = new JScrollPane(table);
+//				panel.add(jsp);
+//				Tool.setOpaque(jsp);
+//				jsp.setBounds(selectcoursetablepanesize);
+//				jsp.updateUI();
+//				panel.updateUI();
+//				panel.repaint();
+//			}
+//		});
 		this.setTitle(modelname);
 		this.setLayout(null);
 		this.addWindowListener(null);
@@ -224,16 +224,16 @@ public abstract class CourseSelectionFrame extends JFrame {
 		Setter setter = new Setter();
 		Tool.setOpaque(jsp);
 		setter.addBackground(this, Tool.FrameImagePath);
-		setter.addBackground(this, Tool.FrameImagePath);
+//		setter.addBackground(this, Tool.FrameImagePath);
 		JPanel componentpanel = new JPanel();
-		componentpanel.setLayout(new FlowLayout(0,10,0));
+		componentpanel.setLayout(null);
+		componentpanel.add(addtotemp);
 		
-		componentpanel.add(addtotempselect);
-		componentpanel.add(showcoursebutton);
+//		componentpanel.add(showcoursebutton);
 		c.add(componentpanel);
-		componentpanel.setBounds(0, 0, 100, 40);
+		componentpanel.setBounds(0, 0, UIConstants.WINDOWWIDTH, 40);
 		Tool.setOpaque(componentpanel);
-		this.setVisible(true);
+		
 		
 		this.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent we){
@@ -241,6 +241,19 @@ public abstract class CourseSelectionFrame extends JFrame {
 			}
 		});
 		
+		JButton backButton = new JButton("返回");
+		backButton.setBounds(700,500,70,30);
+		backButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				dispose();
+			}
+		});
+		this.add(backButton);
+		
+		this.setVisible(true);
 	}
 
 	public JButton getCommitbutton() {

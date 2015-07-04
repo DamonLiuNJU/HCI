@@ -1,11 +1,15 @@
 package presentation.courseselectionui;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import presentation.studentui.Tool;
 import businesslogic.courseselectionbl.CourseSelection;
 import businesslogic.courseselectionbl.SelectCourseInfo;
@@ -14,11 +18,21 @@ import businesslogic.utilitybl.CourseModule;
 
 public class SelectCourseModule {
 
+	JButton commonknowledge = new JButton("通识课选课");
+	JButton PE = new JButton("体育选课");
+	JButton major = new JButton("专业选修课选课");
+	JButton publiccourse = new JButton("公共选课");
+	JButton othermajor = new JButton("跨专业选课");
+	JButton secondselection = new JButton("补选课程");
+	
+	int width = 150;
+	int height = 50;
+	
 	public JPanel selectModelPanel(final String student_id) {
 		final Student s = new Student (student_id);
 		final JPanel selectmodelpanel = new JPanel();
 //		CourseListTable coursetable = new CourseListTable();
-		JButton commonknowledge = new JButton("通识课选课");
+		
 		Tool.setIcon(Tool.bookimage, commonknowledge);
 		commonknowledge.addActionListener(new ActionListener() {
 			@Override
@@ -33,8 +47,11 @@ public class SelectCourseModule {
 				}
 			}
 		});
+		Insets i = new Insets(5, 10,5, 10); 
+		commonknowledge.setMargin(i);
 
-		JButton PE = new JButton("体育选课");
+	
+		PE.setMargin(i);
 		Tool.setIcon(Tool.bookimage, PE);
 		PE.addActionListener(new ActionListener() {
 			@Override
@@ -54,7 +71,8 @@ public class SelectCourseModule {
 			}
 		});
 		// 专业选课
-		JButton major = new JButton("专业选修课选课");
+		
+		major.setMargin(i);
 		Tool.setIcon(Tool.bookimage, major);
 		major.addActionListener(new ActionListener() {
 			@Override
@@ -73,8 +91,9 @@ public class SelectCourseModule {
 		});
 
 		// 公共选课
-		JButton publiccourse = new JButton("公共选课");
+		
 		Tool.setIcon(Tool.bookimage, publiccourse);
+		publiccourse.setMargin(i);
 		publiccourse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -87,8 +106,9 @@ public class SelectCourseModule {
 			}
 		});
 		
-		JButton othermajor = new JButton("跨专业选课");
+		
 		Tool.setIcon(Tool.bookimage, othermajor);
+		othermajor.setMargin(i);
 		othermajor.addActionListener(new ActionListener() {
 			
 			@Override
@@ -98,7 +118,8 @@ public class SelectCourseModule {
 			}
 		});
 		
-		JButton secondselection = new JButton("补选课程");
+	
+		secondselection.setMargin(i);
 		Tool.setIcon(Tool.bookimage, secondselection);
 		secondselection.addActionListener(new ActionListener() {
 			
@@ -112,13 +133,23 @@ public class SelectCourseModule {
 			}
 		});
 		
-		selectmodelpanel.setLayout(new FlowLayout(0, 50, 50));
+		Dimension d = new Dimension(width, height);
+		PE.setSize(d);
+		commonknowledge.setSize(d);
+		major.setSize(d);
+		publiccourse.setSize(d);
+		othermajor.setSize(d);
+		secondselection.setSize(d);
+		
+		selectmodelpanel.setLayout(new FlowLayout(0, 50, 40));
 		selectmodelpanel.add(commonknowledge);
 		selectmodelpanel.add(PE);
 		selectmodelpanel.add(major);
 		selectmodelpanel.add(publiccourse);
 		selectmodelpanel.add(othermajor);
 		// commonknowledge.setBounds(buttonsize);
+		
+		
 		Tool.setOpaque(selectmodelpanel);
 		return selectmodelpanel;
 	}
