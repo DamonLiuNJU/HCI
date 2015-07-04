@@ -22,15 +22,26 @@ import javax.swing.table.DefaultTableModel;
 import presentation.courseui.CourseListTable;
 import presentation.studentui.Tool;
 import presentation.tools.Setter;
+import presentation.tools.UIConstants;
+import vo.courseselectionvo.CourseSelectionVO;
+import businesslogic.courseselectionbl.CourseSelection;
+import businesslogic.courseselectionbl.SelectCourseInfo;
+import businesslogic.studentbl.Student;
 
-public abstract class CommonCourseSelectionFrame extends JFrame {
-	private String modelname;
-	private Vector<Vector<String>> courselist;
+public abstract class CourseSelectionFrame extends JFrame {
 	private JButton commitbutton;
 	private JButton addtotemp;
 	private JButton deletefromtemp;
-	private JTable tempselect;
-	private DefaultTableModel tablemodel;
+	
+	/*
+	 * tempselect是暫時存放已選課程的表格
+	 */
+	protected JTable tempselect;
+	
+	/*
+	 * 這個是所有可选课程courselist的包装。
+	 */
+	protected DefaultTableModel tablemodel;
 	
 //	public void fillFrameWithModelNameAndCourselist(final String modelname,Vector<Vector<String>> courselist){
 //		this.modelname = modelname;
@@ -38,11 +49,13 @@ public abstract class CommonCourseSelectionFrame extends JFrame {
 //		
 //	}
 	
-	public CommonCourseSelectionFrame(){
-		
+	protected Student s;
+	
+	public CourseSelectionFrame(Student s){
+		this.s = s;
 	}
 	
-	public void showFrame(final String modelname,Vector<Vector<String>> courselist){
+	public void showFrame(final String modelname,Vector<Vector<String>> selectedcourselist){
 		final JPanel panel = new JPanel();
 		panel.setOpaque(false);
 		panel.setLayout(null);
@@ -66,7 +79,7 @@ public abstract class CommonCourseSelectionFrame extends JFrame {
 		selectcoursetablepanel.setBounds(selectcoursetablepanesize);
 		selectcoursetablepanel.setOpaque(false);
 		JLabel lable1 = new JLabel(
-				"点击“添加课程”按钮，将要选择的课程添加到右侧列表并点击 “提交选择”（若不提交选择将不能选课）");
+				"点击“添加课程”按钮，将要选择的课程添加到右侧列表");
 		panel.add(lable1);
 		Rectangle r = new Rectangle(200, 10, 600, comboboxheight);
 		lable1.setBounds(r);
@@ -76,7 +89,7 @@ public abstract class CommonCourseSelectionFrame extends JFrame {
 		head.add("课程编号");
 		head.add("课程名");
 
-		final DefaultTableModel mod = new DefaultTableModel(courselist, head);
+		final DefaultTableModel mod = new DefaultTableModel(selectedcourselist, head);
 		this.tablemodel = mod;
 		final JTable tempselect = new JTable(mod);
 		this.tempselect = tempselect;
@@ -129,7 +142,7 @@ public abstract class CommonCourseSelectionFrame extends JFrame {
 				rowData.add(courseid);
 				rowData.add(coursename);
 				if (unabletoadd) {
-					String message = "请勿重复添加课程或添加多于四个课程";
+					String message = UIConstants.DO_NOT_ADD_TOO_MUCH_COURSE;
 					JOptionPane.showMessageDialog(null, message);
 				} else {
 					mod.addRow(rowData);
@@ -260,10 +273,52 @@ public abstract class CommonCourseSelectionFrame extends JFrame {
 	}
 	
 	
-	public abstract void commitbuttonclicked();
-	public abstract void deletefromtempbuttonclicked();
+//	public abstract void commitbuttonclicked();
+//	public abstract void deletefromtempbuttonclicked();
 	
-	
+	public void commitbuttonclicked() {
+		// TODO Auto-generated method stub
+		CourseSelection cs = new CourseSelection();
+		CourseSelectionVO sv = new CourseSelectionVO(s.getStudentID());
+		for (int i = 0; i < tempselect.getRowCount(); i++) {
+			String course_id = null;
+			course_id = (String) tempselect.getValueAt(i, 0);
+			boolean courseexists = false;
+			courseexists = new SelectCourseInfo().courseExist(s.getStudentID(), course_id);
+			if(courseexists){
+				
+			}else{
+				sv.setCourseID(course_id);
+				cs.selectCourse(sv);
+			}
+			
+		}
+//		int selectedcoursenumber = tempselect.getRowCount();
+//		if(selectedcoursenumber==0){
+//			int result=JOptionPane.showConfirmDialog(null, "确认提交空的课程选择？", "Information",JOptionPane.YES_NO_OPTION);
+//			if(result == 0){				
+//				this.dispose();
+//			}else{
+//				 
+//			}
+//			
+//		}else{
+//			JOptionPane.showMessageDialog(null, "选择已提交");
+//			this.dispose();
+//		}
+	}
+
+	public void deletefromtempbuttonclicked() {
+		// TODO Auto-generated method stub
+		int row = tempselect.getSelectedRow();
+		if(row>=0){
+			String course_id = (String) tempselect.getValueAt(row, 0);
+			tablemodel.removeRow(row);
+			CourseSelection si = new CourseSelection();
+			si.removeCourse( (s.getStudentID()), course_id);
+			JOptionPane.showMessageDialog(null, UIConstants.DELETE_SUCCESS);
+		}
+	}
 	
 	
 	
