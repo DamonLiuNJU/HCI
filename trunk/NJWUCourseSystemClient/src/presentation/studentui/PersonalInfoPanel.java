@@ -116,17 +116,8 @@ public class PersonalInfoPanel extends JPanel {
 		label8.setSize(textfieldlength, height);
 		label9.setSize(textfieldlength, height);
 
-//		JButton showpersoninfo = new JButton("显示信息");
-//		Tool.setIcon(Tool.find, showpersoninfo);
-//		showpersoninfo.addActionListener(new ActionListener() {
-
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO 自动生成的方法存根
-//				showPersonInfoPressed();
-//			}
-//		});
 		JButton modify = new JButton("提交修改");
+
 		Tool.setIcon(Tool.correct, modify);
 		modify.addActionListener(new ActionListener() {
 
@@ -148,6 +139,7 @@ public class PersonalInfoPanel extends JPanel {
 				JOptionPane.showMessageDialog(null, "修改成功");
 			}
 		});
+
 //		this.add(showpersoninfo);
 		this.add(modify);
 
@@ -194,6 +186,7 @@ public class PersonalInfoPanel extends JPanel {
 		});
 
 		Tool.setOpaque(this);
+
 	}
 
 	public void showPersonInfoPressed() {

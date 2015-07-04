@@ -21,10 +21,12 @@ public class ElectiveCourseFrame extends CourseSelectionFrame{
 	 * @param args
 	 */
 	public ElectiveCourseFrame(Student s){
+
 		super(s);
 		final String modelname = UIConstants.ElectiveCourseModule;
 		Vector<Vector<String>> mycourselist =new SelectCourseInfo().getSelectedCourse(s.getStudentID(), modelname); //store the lessons he has chosen;
 		this.showFrame(modelname,mycourselist);
+
 	}
 
 	

@@ -122,4 +122,5 @@ public class SelectCourseModule {
 		Tool.setOpaque(selectmodelpanel);
 		return selectmodelpanel;
 	}
+
 }

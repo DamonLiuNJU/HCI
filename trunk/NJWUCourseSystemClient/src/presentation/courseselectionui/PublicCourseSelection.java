@@ -15,7 +15,7 @@ public class PublicCourseSelection extends CourseSelectionFrame {
 	/**
 	 * @param args
 	 */
-	JFrame frame;
+
 
 	public PublicCourseSelection(Student s) {
 		super(s);
@@ -25,6 +25,7 @@ public class PublicCourseSelection extends CourseSelectionFrame {
 				.getSelectedCourse(student_id, modelname); // store the lessons
 															// he has chosen;
 		super.showFrame(modelname, mycourselist);
+
 	}
 
 }

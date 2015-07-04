@@ -74,6 +74,18 @@ public class PECourseFrame {
 			}
 		});
 		
+		JButton backButton = new JButton("返回");
+		backButton.setBounds(700,450,70,30);
+		backButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				mainframe.dispose();
+			}
+		});
+		mainframe.add(backButton);
+		
 		select.setBounds(10, 450, 100, 25);
 		new Setter().addBackground(mainframe, Tool.FrameImagePath);
 	}

@@ -203,6 +203,7 @@ public class StudentDataMySql extends UnicastRemoteObject implements StudentData
 			
 			while(rs.next()){
 				resultsp = new StudentPO();
+				System.out.println(rs.getString("id"));
 				resultsp.setStudentID(rs.getString("id"));
 				resultsp.setPassword(rs.getString("password"));
 				resultsp.setName(rs.getString("name"));

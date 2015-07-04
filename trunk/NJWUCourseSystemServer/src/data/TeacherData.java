@@ -38,7 +38,6 @@ public class TeacherData extends UnicastRemoteObject implements TeacherDataServi
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Override
 	//插入一个teacherPO对象
 	public boolean insert(TeacherPO tp) {
 		// TODO Auto-generated method stub
@@ -51,7 +50,6 @@ public class TeacherData extends UnicastRemoteObject implements TeacherDataServi
 		return true;
 	}
 
-	@Override
 	//查找一个教师PO
 	public TeacherPO find(String teacherID) {
 		// TODO Auto-generated method stub
@@ -85,7 +83,6 @@ public class TeacherData extends UnicastRemoteObject implements TeacherDataServi
 		
 	}
 
-	@Override
 	//按照院系id查找一个院系的教师列表，返回一个ArrayList
 	public ArrayList<TeacherPO> finds(String faculty_id) {
 		// TODO Auto-generated method stub
@@ -120,7 +117,6 @@ public class TeacherData extends UnicastRemoteObject implements TeacherDataServi
 		return null;
 	}
 
-	@Override
 	//在表中删除一个teacherPO
 	public boolean delete(String teacherID) {
 		// TODO Auto-generated method stub
@@ -144,8 +140,6 @@ public class TeacherData extends UnicastRemoteObject implements TeacherDataServi
 	}
 
  	
-	@Override
-	//查找表中所有的teacher，放在ArrayList中返回
 	public ArrayList<TeacherPO> findAll() {
 		// TODO Auto-generated method stub
 		conn = new DataBaseHelper().getConnection();
@@ -179,7 +173,6 @@ public class TeacherData extends UnicastRemoteObject implements TeacherDataServi
 		return null;
 	}
 
-	@Override
 	//方法初始化一个登录之后的teacher对象，获取他个人的信息，以及他所授的课程。
 	public TeacherPO initialTeacher(String id) throws RemoteException {
 		// TODO Auto-generated method stub
@@ -231,7 +224,6 @@ public class TeacherData extends UnicastRemoteObject implements TeacherDataServi
 		return null;
 	}
 
-	@Override
 	/*
 	 * (non-Javadoc)
 	 * @see dataservice.TeacherDataService#findByName(java.lang.String)
@@ -269,7 +261,6 @@ public class TeacherData extends UnicastRemoteObject implements TeacherDataServi
 		
 	}
 
-	@Override
 	//该方法先删去原有的表项，再新增一条记录
 	public boolean update(TeacherPO tp) throws RemoteException {
 		// TODO Auto-generated method stub

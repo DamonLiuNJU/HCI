@@ -226,7 +226,7 @@ public class StudentMainUI extends JFrame {
 		tabpane.addTab(title1, null, courseinfopanel, tip1);
 		tabpane.setIconAt(2, new ImageIcon(Tool.find));
 		
-		String title2="查看成绩";
+		String title2="查看成绩及学分";
 		String tip2="get your scores and credit info";
 		tabpane.addTab(title2, null,scorepanel,tip2);
 		tabpane.setIconAt(3, new ImageIcon(Tool.score));
