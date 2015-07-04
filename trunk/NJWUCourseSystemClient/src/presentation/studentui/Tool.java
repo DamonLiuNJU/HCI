@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
+import presentation.tools.UIConstants;
+
 public class Tool {
 	
 	public static String FrameImagePath ="./icon/0622.png";;
@@ -56,15 +58,15 @@ public class Tool {
 	}
 	public JFrame setFrameLocationAndSize(JFrame frame){
 
-		int windowwedth=800;
-		int windowheight=600;
+		int width=UIConstants.WINDOWWIDTH;
+		int height=UIConstants.WINDOWHEIGHT;
 		int screenwedth=Toolkit.getDefaultToolkit().getScreenSize().width;
 		int screenheight=Toolkit.getDefaultToolkit().getScreenSize().height;
 		Container container=frame.getContentPane();
 		container.setLayout(null);
-		frame.setBounds((screenwedth-windowwedth)/2, (screenheight-windowheight)/2, windowwedth, windowheight); //set position at the center of the screen
+		frame.setBounds((screenwedth-width)/2, (screenheight-height)/2, width, height); //set position at the center of the screen
 		frame.setResizable(false);
-		frame.setLocation((screenwedth-windowwedth)/2,  (screenheight-windowheight)/2);
+		frame.setLocation((screenwedth-width)/2,  (screenheight-height)/2);
 //		this.setSize(windowwedth,windowheight); //set size;
 //		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);	
 		 		

@@ -14,25 +14,6 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 
 public class PublicComponents {
-
-//	public JLabel getTimeLabel() {
-//		final JLabel label = new JLabel();
-//		new Thread() {
-//			@Override
-//			@SuppressWarnings("deprecation")
-//			public void run() {
-//				try {
-//					while (true) {
-//						label.setText(new Date().toLocaleString());
-//						Thread.sleep(1000);
-//					}
-//				} catch (Exception e) {
-//					System.out.print("System error.");
-//				}
-//			}
-//		}.start();
-//		return label;
-//	}
 	
 	public static JLabel getTimeLabel(String title,String name) {
 		final JLabel timelabel = new JLabel();
