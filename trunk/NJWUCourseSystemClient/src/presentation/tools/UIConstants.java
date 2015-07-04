@@ -1,5 +1,7 @@
 package presentation.tools;
 
+import java.awt.Font;
+
 public class UIConstants {
 	public static String STUDENT = "学生";
 	public static String ADMIN = "管理员";
@@ -17,4 +19,6 @@ public class UIConstants {
 	
 	public static int WINDOWWIDTH=800;
 	public static int WINDOWHEIGHT=600;
+	
+	public static Font DEFAULT_FONT = new Font("微软雅黑",Font.PLAIN, 13);
 }

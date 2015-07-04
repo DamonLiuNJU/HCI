@@ -93,8 +93,8 @@ public class StudentMainUI extends JFrame {
 		
 		this.setIconImage(icon.getImage());
 		
-		int windowwedth=800;
-		int windowheight=600;
+		int window_width=UIConstants.WINDOWWIDTH;
+		int window_height=UIConstants.WINDOWHEIGHT;
 		int screenwedth=Toolkit.getDefaultToolkit().getScreenSize().width;
 		int screenheight=Toolkit.getDefaultToolkit().getScreenSize().height;
 		
@@ -121,7 +121,7 @@ public class StudentMainUI extends JFrame {
 		
 		container.add(pane);
 		this.repaint();
-		pane.setSize(windowwedth, windowheight);
+		pane.setSize(window_width, window_height);
 		pane.setBackground(Color.white);
 		int tabbedpanewedth=800;
 		int tabbedpaneheight=550;
@@ -199,8 +199,8 @@ public class StudentMainUI extends JFrame {
 		container.add(componentpanel);
 		componentpanel.setBounds(550, 0, 300, 110);
 		
-		pane.setBounds(0,windowheight-tabbedpaneheight,tabbedpanewedth,tabbedpaneheight);
-		this.setBounds((screenwedth-windowwedth)/2, (screenheight-windowheight)/2, windowwedth, windowheight); //set position at the center of the screen
+		pane.setBounds(0,window_height-tabbedpaneheight,tabbedpanewedth,tabbedpaneheight);
+		this.setBounds((screenwedth-window_width)/2, (screenheight-window_height)/2, window_width, window_height); //set position at the center of the screen
 		this.setResizable(false);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);	
 		this.repaint();
