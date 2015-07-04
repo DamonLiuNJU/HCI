@@ -92,6 +92,9 @@ public static JFrame getChangePassWordFrame(final String student_id){
 				char[] newpass2 = newpassword2.getPassword();
 				int newkeylength = newpass1.length;
 				boolean keytoolong = false;
+				String oldpassstring = new String(oldpass);
+				String newpassstring = new String(newpass1);
+				boolean pswnotchanged = oldpassstring.compareTo(newpassstring)==0;
 				
 				if(newkeylength<6){
 					//key length too short
@@ -122,8 +125,10 @@ public static JFrame getChangePassWordFrame(final String student_id){
 					vo.setID(student_id);
 					vo.setKey(oldpass);
 					boolean oldkeyvalid = new StudentInfo().isKeyValid(vo);
-
-					if(newpassvalid&&samelength&&!keytoolong&&oldkeyvalid){
+					
+					if(pswnotchanged){
+						JOptionPane.showMessageDialog(null, "与原密码一致，无需修改");
+					}else if(newpassvalid&&samelength&&!keytoolong&&oldkeyvalid){
 						StudentInfoBLService si = new StudentInfo();
 						si.changePassWord(student_id, oldpass, newpass1);
 						mainframe.setVisible(false);
@@ -136,7 +141,6 @@ public static JFrame getChangePassWordFrame(final String student_id){
 						JOptionPane.showMessageDialog(null, "密码过长");
 					}else if(!oldkeyvalid){
 						JOptionPane.showMessageDialog(null, "原密码输入错误");
-
 					}
 				}
 				

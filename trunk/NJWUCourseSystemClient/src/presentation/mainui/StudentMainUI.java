@@ -19,6 +19,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.AutumnSkin;
@@ -91,8 +93,8 @@ public class StudentMainUI extends JFrame {
 		
 		this.setIconImage(icon.getImage());
 		
-		int windowwedth=800;
-		int windowheight=600;
+		int window_width=UIConstants.WINDOWWIDTH;
+		int window_height=UIConstants.WINDOWHEIGHT;
 		int screenwedth=Toolkit.getDefaultToolkit().getScreenSize().width;
 		int screenheight=Toolkit.getDefaultToolkit().getScreenSize().height;
 		
@@ -112,14 +114,14 @@ public class StudentMainUI extends JFrame {
 		getcheckinfopanel=new MajorTransferPanel().getPanel(new CourseSelectionVO(student_id));
 		
 		JPanel quitcoursepanel=new QuitCoursePanel().getQuitCoursePanel(student_id);
-		JPanel personalpanel=new PersonalInfoPanel().getMainPanel(student_id);
+		PersonalInfoPanel personalpanel=new PersonalInfoPanel(student_id);
 		JPanel courseconditionpanel = new CourseConditionPanel(student_id);
 		JPanel coursecommentpanel = new CourseCommentPanel(student_id);
 		pane=this.getJTabbedPane(getcoursepanel,getscorepanel,selectcoursepanel,quitcoursepanel,getcheckinfopanel ,personalpanel,courseconditionpanel,coursecommentpanel);
 		
 		container.add(pane);
 		this.repaint();
-		pane.setSize(windowwedth, windowheight);
+		pane.setSize(window_width, window_height);
 		pane.setBackground(Color.white);
 		int tabbedpanewedth=800;
 		int tabbedpaneheight=550;
@@ -197,21 +199,23 @@ public class StudentMainUI extends JFrame {
 		container.add(componentpanel);
 		componentpanel.setBounds(550, 0, 300, 110);
 		
-		pane.setBounds(0,windowheight-tabbedpaneheight,tabbedpanewedth,tabbedpaneheight);
-		this.setBounds((screenwedth-windowwedth)/2, (screenheight-windowheight)/2, windowwedth, windowheight); //set position at the center of the screen
+		pane.setBounds(0,window_height-tabbedpaneheight,tabbedpanewedth,tabbedpaneheight);
+		this.setBounds((screenwedth-window_width)/2, (screenheight-window_height)/2, window_width, window_height); //set position at the center of the screen
 		this.setResizable(false);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);	
 		this.repaint();
 		return this;
 	}
 	
-	private JTabbedPane getJTabbedPane(JPanel courseinfopanel,JPanel scorepanel,JPanel selectcoursepanel,JPanel quitcoursepanel, JPanel admissionpanel,JPanel personalInfopanel,JPanel courseconditionpanel,final JPanel coursecommentpanel){
+	private JTabbedPane getJTabbedPane(JPanel courseinfopanel,JPanel scorepanel,JPanel selectcoursepanel,JPanel quitcoursepanel, JPanel admissionpanel,final PersonalInfoPanel personalInfopanel,JPanel courseconditionpanel,final JPanel coursecommentpanel){
 		
 		final JTabbedPane tabpane=new JTabbedPane(SwingConstants.TOP, SwingConstants.HORIZONTAL);
+		
 		String title3="选择课程";
 		String tip3="Select Course or Quit Your Course here";
 		tabpane.addTab(title3,null,selectcoursepanel,tip3);
 		tabpane.setIconAt(0, new ImageIcon(Tool.books));
+		
 		String title4="退选课程";
 		String tip4="";
 		tabpane.addTab(title4, null, quitcoursepanel, tip4);
@@ -219,7 +223,6 @@ public class StudentMainUI extends JFrame {
 		
 		String title1="查看课程信息";
 		String tip1="you can get course info here";
-
 		tabpane.addTab(title1, null, courseinfopanel, tip1);
 		tabpane.setIconAt(2, new ImageIcon(Tool.find));
 		
@@ -227,6 +230,8 @@ public class StudentMainUI extends JFrame {
 		String tip2="get your scores and credit info";
 		tabpane.addTab(title2, null,scorepanel,tip2);
 		tabpane.setIconAt(3, new ImageIcon(Tool.score));
+		
+		
 		
 		String title5="转院系申请";
 		String tip5="See if your application is allowed";
@@ -246,6 +251,18 @@ public class StudentMainUI extends JFrame {
 		//String title8 = "课程评估";
 		//String tip8 = "评价教师与课程";
         //tabpane.addTab(title8, null,coursecommentpanel,tip8);
+		
+		tabpane.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				if(tabpane.getSelectedIndex() == 5){
+					personalInfopanel.showPersonInfoPressed();
+				}
+			}
+		});
+		
 		tabpane.addMouseListener(new MouseListener() {
 			
 			@Override
