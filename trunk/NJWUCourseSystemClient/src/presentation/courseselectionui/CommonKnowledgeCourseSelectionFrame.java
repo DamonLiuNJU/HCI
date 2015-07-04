@@ -8,6 +8,11 @@ import businesslogic.studentbl.Student;
 
 public class CommonKnowledgeCourseSelectionFrame extends CourseSelectionFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4681412790907671043L;
+
 	public CommonKnowledgeCourseSelectionFrame(Student s) {
 		super(s);
 		// TODO Auto-generated constructor stub

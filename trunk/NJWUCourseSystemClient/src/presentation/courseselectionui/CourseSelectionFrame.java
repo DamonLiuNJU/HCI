@@ -29,6 +29,13 @@ import businesslogic.courseselectionbl.SelectCourseInfo;
 import businesslogic.studentbl.Student;
 
 public abstract class CourseSelectionFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2835670041427574729L;
+	/**
+	 * 
+	 */
 	private JButton commitbutton;
 	private JButton addtotemp;
 	private JButton deletefromtemp;
@@ -146,8 +153,12 @@ public abstract class CourseSelectionFrame extends JFrame {
 					JOptionPane.showMessageDialog(null, message);
 				} else {
 					mod.addRow(rowData);
+					JOptionPane.showMessageDialog(null, UIConstants.SELECT_SUCCESS);
 				}
 			}
+			
+			
+			
 		});
 
 		JButton cancelselect = new JButton("删除选择");
