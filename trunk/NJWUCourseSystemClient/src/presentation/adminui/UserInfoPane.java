@@ -99,6 +99,9 @@ public class UserInfoPane extends JPanel {
 		faculty.setBounds(400 , 60 , 70 , 25);
 
 		comboBox.setBounds(480 , 60 , 150 , 25);
+		if(comboBox.getActionListeners().length > 0){
+		comboBox.getActionListeners()[0].actionPerformed(null);
+		}
 	
 		this.add(faculty);
 		this.add(comboBox);
@@ -134,6 +137,10 @@ public class UserInfoPane extends JPanel {
 		faculty.setBounds(400 , 60 , 70 , 25);
 
 		comboBox.setBounds(480 , 60 , 150 , 25);
+		if(comboBox.getActionListeners().length > 0){
+		comboBox.getActionListeners()[0].actionPerformed(null);
+		}
+	
 
 		this.add(faculty);
 		this.add(comboBox);
@@ -190,6 +197,10 @@ public class UserInfoPane extends JPanel {
 		faculty.setBounds(20 , 60 , 70 , 25);
 
 		comboBox.setBounds(100 , 60 , 150 , 25);
+		if(comboBox.getActionListeners().length > 0){
+		comboBox.getActionListeners()[0].actionPerformed(null);
+		}
+	
 
 		this.add(faculty);
 		this.add(comboBox);

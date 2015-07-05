@@ -142,26 +142,29 @@ public class StudentInfo implements StudentInfoBLService   {
 	/*
 	 * 密码是否正确。
 	 */
-	public boolean isKeyValid(StudentInfoVO siv) {
+	public int isKeyValid(StudentInfoVO siv) {
 		// TODO 自动生成的方法存根
 		String id = siv.getID();
 		String key = siv.getKey();
 		StudentDataService sds = (StudentDataService) factory.getData("Student");
-		StudentPO po = new StudentPO();
+		StudentPO po = null;
 		try {
 			po = sds.find(new StudentPO(id));
 		} catch (RemoteException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
+		if(po == null){
+			return 1;
+		}
 		String password = po.getPassWord();
 		if(password ==  null){
-			return false;
+			return 0;
 		}
 		if (key.compareToIgnoreCase(password) == 0) {
-			return true;
+			return 2;
 		} else {
-			return false;
+			return 0;
 		}
 
 	}

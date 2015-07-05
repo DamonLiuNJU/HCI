@@ -1,5 +1,8 @@
 package presentation.adminui;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -9,6 +12,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+
+
+
 
 
 import vo.adminvo.UserVO;
@@ -88,7 +95,7 @@ public class UpdatePane extends JPanel implements MouseListener {
 		searchPane.setBounds(50 , 40 ,400 ,60);
 		
 		searchLabel = new JLabel("搜索：");
-		searchField = new JTextField(20);
+		searchField = new JTextField("请输入学（工）号",20);
 		searchButton = new JButton("搜索");
 		searchButton.addMouseListener(this);
 		
@@ -98,13 +105,14 @@ public class UpdatePane extends JPanel implements MouseListener {
 		
 		this.add(searchPane);
 	}
+	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == searchButton){
 			if(searchField.getText().equals("")){
-				JOptionPane.showMessageDialog(this, "请输入搜索信息");
+				JOptionPane.showMessageDialog(this, "请输入用户的学（工）号信息");
 				return ;
 			}
 			else {
@@ -185,5 +193,4 @@ public class UpdatePane extends JPanel implements MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

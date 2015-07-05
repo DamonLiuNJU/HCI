@@ -46,6 +46,9 @@ public class LoginUI implements ViewReplyMessage {
 	JComboBox<UserType> roleBox;
 	JTextField tf;
 	JPasswordField pf;
+	JLabel status;
+//	ImageIcon statusimg;
+//	JLabel statusimage;
 
 	OutputHelper helper = new OutputHelper();
 
@@ -69,6 +72,9 @@ public class LoginUI implements ViewReplyMessage {
 		JLabel pwlabel = new JLabel("密码");
 		pf = new JPasswordField(25);
 
+		status = new JLabel("正在登陆...");
+//		statusimg = new ImageIcon("./icon/waiting.gif");
+//		statusimage = new JLabel(statusimg);
 		JPanel p1 = new JPanel(new MigLayout());
 		p1.setOpaque(false);
 		JButton button1 = new JButton("登录");
@@ -80,6 +86,9 @@ public class LoginUI implements ViewReplyMessage {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar() == '\n') {
+					status.setVisible(true);
+//					statusimage.setVisible(true);
+					frame.setVisible(true);
 					login();
 				}
 			}
@@ -89,6 +98,9 @@ public class LoginUI implements ViewReplyMessage {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar() == '\n') {
+					status.setVisible(true);
+//					statusimage.setVisible(true);
+					frame.setVisible(true);
 					login();
 				}
 			}
@@ -115,7 +127,9 @@ public class LoginUI implements ViewReplyMessage {
 
 		frame.add(p, "gapleft 110,gapright 100,gaptop 110,wrap");
 		frame.add(p1, "gapleft 130,wrap");
-		frame.add(l, "gaptop 45,gapleft 105");
+		frame.add(status, "gapleft 110,gaptop 10,wrap");
+//		frame.add(statusimage,"gapleft 195,wrap");
+		frame.add(l, "gaptop 15,gapleft 105");
 		frame.setSize(500, 350);
 		int windowwedth = frame.getWidth();
 		int windowheight = frame.getHeight();
@@ -123,17 +137,25 @@ public class LoginUI implements ViewReplyMessage {
 		int screenheight = Toolkit.getDefaultToolkit().getScreenSize().height;
 		frame.setLocation((screenwedth - windowwedth) / 2,
 				(screenheight - windowheight) / 2);
+		status.setVisible(false);
+//		statusimage.setVisible(false);
 		frame.setVisible(true);
 	}
 
 	class BListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			status.setVisible(true);
+//			statusimage.setVisible(true);
+			frame.setVisible(true);
 			login();
 		}
 	}
 
 	void login() {
+		status.setVisible(true);
+//		statusimage.setVisible(true);
+		frame.setVisible(true);
 		try {
 			UserType type = change(roleBox.getSelectedItem().toString());
 			String userid = tf.getText();
@@ -142,7 +164,7 @@ public class LoginUI implements ViewReplyMessage {
 			for (int i = 0; i < password.length; i++) {
 				pass += password[i];
 			}
-			boolean valid;
+			int valid;
 			int login = 0;// 登陆验证类型：0 用户不存在，1 密码错误，2 成功
 
 			IDFormat format = new IDFormat(type);
@@ -196,12 +218,16 @@ public class LoginUI implements ViewReplyMessage {
 				siv.setID(userid);
 				siv.setKey(password);
 				valid = new StudentInfo().isKeyValid(siv);
-				if (valid) {
+				if (valid == 2) {
 					frame.dispose();
 					JFrame f = new StudentMainUI().createFrame(userid, frame);
 					f.setVisible(true);
-				} else {
-					helper.outputToDialog("Wrong PassWord !");
+				}
+				else if(valid == 0){
+					helper.outputToDialog(PW_ERROR);
+				}
+				else{
+					helper.outputToDialog(ID_NOT_EXIST);
 				}
 				break;
 
@@ -210,6 +236,8 @@ public class LoginUI implements ViewReplyMessage {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(frame, "与服务器连接失败");
 		}
+		status.setVisible(false);
+//		frame.setVisible(true);
 	}
 
 	public UserType change(String s) {
