@@ -1,5 +1,6 @@
 package presentation.statusui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class AdminStatusPane {
 		jtf = new JTextField[22];
 		for (int i = 0; i < jtf.length; i++) {
 			jtf[i] = new JTextField();
-			jtf[i].setOpaque(false);
+//			jtf[i].setOpaque(false);
 		}
 
 		JLabel managerLabel = new JLabel("教务处状态");
@@ -311,6 +312,14 @@ public class AdminStatusPane {
 	private void setEditable(boolean bool) {
 		for (int i = 0; i < jtf.length; i++) {
 			jtf[i].setEditable(bool);
+			if(bool){
+				jtf[i].setBackground(Color.WHITE);
+				jtf[i].setOpaque(true);
+			}
+			else{
+				jtf[i].setOpaque(false);
+//				jtf[i].setBackground(Color.GRAY);
+			}
 		}
 	}
 

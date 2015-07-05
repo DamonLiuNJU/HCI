@@ -124,7 +124,7 @@ public static JFrame getChangePassWordFrame(final String student_id){
 					StudentInfoVO vo = new StudentInfoVO();
 					vo.setID(student_id);
 					vo.setKey(oldpass);
-					boolean oldkeyvalid = new StudentInfo().isKeyValid(vo);
+					boolean oldkeyvalid = new StudentInfo().isKeyValid(vo) == 2 ? true:false;
 					
 					if(pswnotchanged){
 						JOptionPane.showMessageDialog(null, "与原密码一致，无需修改");
