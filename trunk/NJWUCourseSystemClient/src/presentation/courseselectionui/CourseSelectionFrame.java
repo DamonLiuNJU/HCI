@@ -1,7 +1,6 @@
 package presentation.courseselectionui;
 
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +8,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import presentation.courseui.CourseListTable;
 import presentation.studentui.Tool;
@@ -82,7 +81,7 @@ public abstract class CourseSelectionFrame extends JFrame {
 		//修改
 		Tool.setOpaque(selectcoursetablepanel);
 		panel.add(selectcoursetablepanel);
-		final Rectangle selectcoursetablepanesize = new Rectangle(10, 50, 780, 400);
+		final Rectangle selectcoursetablepanesize = new Rectangle(10, 5, 780, 400);
 		selectcoursetablepanel.setBounds(selectcoursetablepanesize);
 		selectcoursetablepanel.setOpaque(false);
 		JLabel lable1 = new JLabel();
@@ -104,7 +103,15 @@ public abstract class CourseSelectionFrame extends JFrame {
 		jsp.setOpaque(false);
 		Tool.setOpaque(jsp);
 		panel.add(jsp);
-		jsp.setBounds(10, 450, 150, 110);
+		TableColumn firsetColumn = tempselect.getColumnModel().getColumn(0);
+		firsetColumn.setPreferredWidth(60);
+		firsetColumn.setMaxWidth(100);
+		firsetColumn.setMinWidth(60);
+		
+		JLabel temp_select_label = new JLabel("你的已选课程列表:");
+		this.add(temp_select_label);
+		temp_select_label.setBounds(10, 430, 150, 20);
+		jsp.setBounds(10, 450, 250, 100);
 		Tool.setOpaque(jsp);
 		final JButton commitselect = new JButton("提交选择");
 		this.commitbutton = commitselect;
@@ -117,12 +124,12 @@ public abstract class CourseSelectionFrame extends JFrame {
 			}
 		});
 		panel.add(commitselect);
-		commitselect.setBounds(170, 450, 100, 40);
+		commitselect.setBounds(270, 450, 100, 40);
 		
 		this.addtotemp = new JButton("添加选定课程");
 		
 //		addtotemp.setFont(UIConstants.DEFAULT_FONT);
-		addtotemp.setBounds(10, 10, 200, 30);
+		addtotemp.setBounds(700, 600, 70, 30);
 		addtotemp.addActionListener(new ActionListener() {
 			/*
 			 * (non-Javadoc)感觉这个是都一样的，无需定制。
@@ -191,7 +198,7 @@ public abstract class CourseSelectionFrame extends JFrame {
 //		});
 
 		panel.add(cancelselect);
-		cancelselect.setBounds(170, 500, 100, 40);
+		cancelselect.setBounds(270, 500, 100, 40);
 
 //		showcoursebutton.addActionListener(new ActionListener() {
 //			/*
@@ -227,7 +234,7 @@ public abstract class CourseSelectionFrame extends JFrame {
 //		setter.addBackground(this, Tool.FrameImagePath);
 		JPanel componentpanel = new JPanel();
 		componentpanel.setLayout(null);
-		componentpanel.add(addtotemp);
+		this.add(addtotemp);
 		
 //		componentpanel.add(showcoursebutton);
 		c.add(componentpanel);
@@ -242,7 +249,10 @@ public abstract class CourseSelectionFrame extends JFrame {
 		});
 		
 		JButton backButton = new JButton("返回");
-		backButton.setBounds(700,500,70,30);
+		
+		backButton.setBounds(600,500,100,30);
+		addtotemp.setBounds(600, 450, 100, 30);
+		
 		backButton.addActionListener(new ActionListener() {
 			
 			@Override
